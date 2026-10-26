@@ -2,86 +2,146 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Wallet Deposit Tracker / 钱包到账追踪器</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>USDT Pay</title>
 <style>
-body{font:16px system-ui,sans-serif;max-width:560px;margin:auto;padding:16px;background:#111;color:#eee}
-input,button{width:100%;padding:10px;margin:4px 0;font-size:16px;box-sizing:border-box;border-radius:6px;border:1px solid #333;background:#1c1c1c;color:#eee}
-button{background:#2563eb;border:0;cursor:pointer}
-.lang{text-align:right}.lang button{width:auto;display:inline-block;padding:6px 12px;font-size:14px;background:#333}.lang button.on{background:#2563eb}
-.c{background:#1c1c1c;padding:12px;border-radius:8px;margin:10px 0;word-break:break-all}
-.RECEIVED{color:#4ade80}.WAITING{color:#94a3b8}
-a{color:#7dd3fc}small{color:#94a3b8}
+:root{--bg:#f4f6fb;--card:#fff;--tx:#0f172a;--mu:#64748b;--bd:#e2e8f0;--ac:#2563eb;--ok:#16a34a;--wa:#d97706}
+@media(prefers-color-scheme:dark){:root:not([data-t=light]){--bg:#0b0f17;--card:#141a26;--tx:#e8edf5;--mu:#8b97ab;--bd:#243049}}
+:root[data-t=dark]{--bg:#0b0f17;--card:#141a26;--tx:#e8edf5;--mu:#8b97ab;--bd:#243049}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 14px 30px}
+.w{max-width:480px;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
+.top div{display:flex;gap:6px}
+select,button,input{font:inherit;color:var(--tx)}
+select,.ic{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:6px 8px;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px;margin-bottom:14px;word-break:break-all}
+input{width:100%;padding:12px;margin:5px 0;border:1px solid var(--bd);border-radius:10px;background:var(--bg)}
+.btn{width:100%;padding:13px;border:0;border-radius:10px;background:var(--ac);color:#fff;font-weight:600;cursor:pointer;margin-top:6px}
+.btn.s{background:var(--bg);color:var(--tx);border:1px solid var(--bd);width:auto;padding:9px 14px;margin:4px 4px 0 0;font-weight:500}
+.bn{border-radius:12px;padding:14px;text-align:center;font-weight:700;font-size:18px;margin:10px 0}
+.WAITING{background:var(--bg);color:var(--mu)}.CONFIRMING,.PARTIAL{background:#fef3c7;color:var(--wa)}.PAID{background:#dcfce7;color:var(--ok)}
+.EXPIRED{background:#fee2e2;color:#b91c1c}
+.PAID .k{display:inline-block;animation:pop .5s}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.4)}100%{transform:scale(1)}}
+.mu{color:var(--mu);font-size:14px}.big{font-size:26px;font-weight:700}
+.warn{background:#fef3c7;color:#92400e;border-radius:10px;padding:10px;font-size:14px;margin:10px 0}
+.chip{display:inline-block;background:var(--bg);border:1px solid var(--bd);border-radius:20px;padding:2px 10px;font-size:13px}
+#qr{display:flex;justify-content:center;margin:12px 0}#qr img,#qr canvas{border-radius:8px;background:#fff;padding:8px}
+.tx{border-top:1px solid var(--bd);padding:8px 0;font-size:14px}
+a{color:var(--ac)}
+@media print{.top,.noprint,.warn{display:none}body{background:#fff;color:#000}}
 </style>
 </head>
-<body>
-<div class="lang" id="lang"></div>
-<div id="app"></div>
+<body><div class="w"><div class="top"><b>◈ USDT Pay</b><div><select id="lg" aria-label="language"><option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="ru">Русский</option></select><button class="ic" id="th">◐</button></div></div><div id="app"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-const USDT='TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
-const L={
-en:{create:'Create deposit tracker',name:'Name (optional)',wallet:'Your TRON wallet (starts with T)',sender:'Only count deposits from this sender wallet (optional)',go:'Create link',
-note:'Tracks confirmed USDT (TRC20) deposits arriving in your wallet after the link is created. Nothing else.',share:'Share this link:',copy:'Copy link',copied:'Copied',bad:'Enter a valid TRON wallet',
-title:'Deposit status',loading:'Loading…',refresh:'Refreshes every 20s.',newlink:'Create new link',w:'Wallet',net:'Network: TRON (TRC20) USDT',st:'Status',
-WAITING:'WAITING',RECEIVED:'RECEIVED',total:'Total received in wallet',from:'from',err:'Could not reach the blockchain API, retrying…',def:'Deposits'},
-zh:{create:'创建到账追踪链接',name:'名称（可选）',wallet:'您的波场(TRON)钱包地址（以T开头）',sender:'仅统计来自此付款钱包的转账（可选）',go:'生成链接',
-note:'仅追踪创建链接之后、转入您钱包的已确认 USDT（TRC20）转账，不追踪其他任何内容。',share:'请分享此链接：',copy:'复制链接',copied:'已复制',bad:'请输入有效的波场钱包地址',
-title:'到账状态',loading:'加载中…',refresh:'每20秒自动刷新。',newlink:'创建新链接',w:'钱包',net:'网络：波场 (TRC20) USDT',st:'状态',
-WAITING:'等待中',RECEIVED:'已到账',total:'钱包累计收到',from:'来自',err:'无法连接区块链接口，正在重试…',def:'到账记录'}};
-let lang='en',timer=null,cur=null;
-try{lang=localStorage.getItem('lang')||((navigator.language||'').toLowerCase().startsWith('zh')?'zh':'en');}catch{}
-const t=k=>L[lang][k];
-const app=document.getElementById('app');
-const enc=o=>btoa(encodeURIComponent(JSON.stringify(o)));
-const dec=s=>JSON.parse(decodeURIComponent(atob(s)));
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const D={
+en:{sub:'Free. No sign-up. Funds go straight to your wallet.',create:'Create payment link',name:'Title (optional)',wallet:'Your TRON wallet (starts with T)',amount:'Amount requested in USDT (optional)',ref:'Reference / invoice no. (optional)',sender:'Only count deposits from this sender wallet (optional)',go:'Create link',note:'Tracks confirmed USDT (TRC20) deposits into your wallet made after the link is created.',share:'Share',copy:'Copy',copied:'Copied ✓',bad:'Enter a valid TRON wallet address',WAITING:'Waiting for payment',CONFIRMING:'Payment detected, confirming…',PAID:'Payment confirmed',PARTIAL:'Partial payment received',warn:'Send only USDT on the TRON (TRC20) network. Other networks or tokens will be lost.',rcv:'Received',due:'Still due',over:'Overpaid by',from:'from',err:'Connection problem, retrying…',newl:'New link',rcpt:'Receipt',csv:'CSV',hist:'Your links',scan:'Scan or copy the address',foot:'This page only reports what the blockchain shows. It never holds funds and cannot verify who is paying.',req:'Requested',open:'Open'},
+zh:{sub:'免费，无需注册，资金直接进入您的钱包。',create:'创建收款链接',name:'标题（可选）',wallet:'您的波场(TRON)钱包地址（以T开头）',amount:'请求金额 USDT（可选）',ref:'参考号 / 发票号（可选）',sender:'仅统计此付款钱包的转账（可选）',go:'生成链接',note:'仅追踪链接创建之后转入您钱包的已确认 USDT（TRC20）。',share:'分享',copy:'复制',copied:'已复制 ✓',bad:'请输入有效的波场钱包地址',WAITING:'等待付款',CONFIRMING:'已检测到付款，确认中…',PAID:'付款已确认',PARTIAL:'已收到部分付款',warn:'请仅通过波场(TRC20)网络转入 USDT。其他网络或代币将会丢失。',rcv:'已收到',due:'尚欠',over:'多付',from:'来自',err:'连接问题，正在重试…',newl:'新链接',rcpt:'收据',csv:'CSV',hist:'我的链接',scan:'扫码或复制地址',foot:'本页仅显示区块链上的数据，不托管资金，也无法验证付款人身份。',req:'请求金额',open:'打开'},
+es:{sub:'Gratis. Sin registro. Los fondos van directo a tu billetera.',create:'Crear enlace de pago',name:'Título (opcional)',wallet:'Tu billetera TRON (empieza con T)',amount:'Monto solicitado en USDT (opcional)',ref:'Referencia / n.º de factura (opcional)',sender:'Contar solo depósitos de esta billetera (opcional)',go:'Crear enlace',note:'Rastrea depósitos USDT (TRC20) confirmados en tu billetera hechos después de crear el enlace.',share:'Compartir',copy:'Copiar',copied:'Copiado ✓',bad:'Introduce una dirección TRON válida',WAITING:'Esperando el pago',CONFIRMING:'Pago detectado, confirmando…',PAID:'Pago confirmado',PARTIAL:'Pago parcial recibido',warn:'Envía solo USDT por la red TRON (TRC20). Otras redes o tokens se perderán.',rcv:'Recibido',due:'Pendiente',over:'Pagado de más',from:'de',err:'Problema de conexión, reintentando…',newl:'Nuevo enlace',rcpt:'Recibo',csv:'CSV',hist:'Tus enlaces',scan:'Escanea o copia la dirección',foot:'Esta página solo muestra lo que indica la blockchain. Nunca retiene fondos ni verifica quién paga.',req:'Solicitado',open:'Abrir'},
+ru:{sub:'Бесплатно. Без регистрации. Средства идут прямо на ваш кошелёк.',create:'Создать ссылку для оплаты',name:'Название (необязательно)',wallet:'Ваш кошелёк TRON (начинается с T)',amount:'Запрашиваемая сумма в USDT (необязательно)',ref:'Номер / счёт (необязательно)',sender:'Учитывать только переводы с этого кошелька (необязательно)',go:'Создать ссылку',note:'Отслеживает подтверждённые переводы USDT (TRC20) на ваш кошелёк после создания ссылки.',share:'Поделиться',copy:'Копировать',copied:'Скопировано ✓',bad:'Введите корректный адрес TRON',WAITING:'Ожидание платежа',CONFIRMING:'Платёж обнаружен, подтверждается…',PAID:'Платёж подтверждён',PARTIAL:'Получена часть платежа',warn:'Отправляйте только USDT по сети TRON (TRC20). Другие сети и токены будут потеряны.',rcv:'Получено',due:'Осталось',over:'Переплата',from:'от',err:'Ошибка соединения, повтор…',newl:'Новая ссылка',rcpt:'Квитанция',csv:'CSV',hist:'Ваши ссылки',scan:'Сканируйте или скопируйте адрес',foot:'Страница показывает только данные блокчейна. Она не хранит средства и не проверяет плательщика.',req:'Запрошено',open:'Открыть'}};
+const TIP='TR257J4161n7vpP646VvSwM6bz3GkGtJNv';
+Object.assign(D.en,{tip:'☕ Buy me a coffee',tipsub:'Like this tool? Support it with a small tip.',thx:'Thank you! ☕',never:'No expiry',min:'min',EXPIRED:'This link has expired'});
+Object.assign(D.zh,{tip:'☕ 请我喝杯咖啡',tipsub:'喜欢这个工具吗？欢迎小额打赏支持。',thx:'谢谢您！☕',never:'永不过期',min:'分钟',EXPIRED:'此链接已过期'});
+Object.assign(D.es,{tip:'☕ Invítame un café',tipsub:'¿Te gusta esta herramienta? Apóyala con una pequeña propina.',thx:'¡Gracias! ☕',never:'Sin caducidad',min:'min',EXPIRED:'Este enlace ha caducado'});
+Object.assign(D.ru,{tip:'☕ Угостить кофе',tipsub:'Нравится сервис? Поддержите небольшой суммой.',thx:'Спасибо! ☕',never:'Без срока',min:'мин',EXPIRED:'Срок действия ссылки истёк'});
+const U='TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',$=s=>document.querySelector(s),app=$('#app');
+const rd=k=>{try{return localStorage.getItem(k)}catch{return null}},wr=(k,v)=>{try{localStorage.setItem(k,v)}catch{}};
+let lang=rd('lang'),cur=null,timer=null,timer2=null,prev=null,last=[],rates={};
+if(!D[lang])lang=D[(navigator.language||'en').slice(0,2)]?(navigator.language).slice(0,2):'en';
+if(rd('theme'))document.documentElement.dataset.t=rd('theme');
+const t=k=>D[lang][k],esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const enc=o=>btoa(encodeURIComponent(JSON.stringify(o))),dec=s=>JSON.parse(decodeURIComponent(atob(s)));
+const sym={USD:'$',CNY:'¥',EUR:'€'};
+const fiat=v=>{const c=cur&&cur.c||'USD';if(c==='USD')return ` ≈ $${v.toLocaleString(undefined,{maximumFractionDigits:2})}`;return rates[c]?` ≈ ${sym[c]}${(v*rates[c]).toLocaleString(undefined,{maximumFractionDigits:2})}`:''};
+const n2=v=>+v.toFixed(6);
+function copy(txt,b){navigator.clipboard.writeText(txt).then(()=>{const o=b.textContent;b.textContent=t('copied');setTimeout(()=>b.textContent=o,1500)})}
+function share(url,title){if(navigator.share)navigator.share({title,url}).catch(()=>{});else window.open('https://t.me/share/url?url='+encodeURIComponent(url))}
+function ping(){try{const a=new AudioContext(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();o.stop(a.currentTime+.25)}catch{}navigator.vibrate&&navigator.vibrate([150,80,150])}
 
-function setLang(l){lang=l;try{localStorage.setItem('lang',l);}catch{}render();}
-function langBar(){document.getElementById('lang').innerHTML=
-  `<button class="${lang==='en'?'on':''}" onclick="setLang('en')">EN</button> <button class="${lang==='zh'?'on':''}" onclick="setLang('zh')">中文</button>`;
-  document.documentElement.lang=lang==='zh'?'zh-CN':'en';}
+$('#lg').value=lang;$('#lg').onchange=e=>{lang=e.target.value;wr('lang',lang);render()};
+$('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.t==='dark'||(!r.dataset.t&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.t=d?'light':'dark';wr('theme',r.dataset.t)};
 
 function form(){
-  app.innerHTML=`<h2>${t('create')}</h2>
-  <input id="n" placeholder="${t('name')}">
-  <input id="w" placeholder="${t('wallet')}">
+  let h=[];try{h=JSON.parse(rd('links')||'[]')}catch{}
+  app.innerHTML=`<div class="card"><h2 style="margin:0 0 4px">${t('create')}</h2><div class="mu">${t('sub')}</div><br>
+  <input id="n" placeholder="${t('name')}"><input id="w" placeholder="${t('wallet')}" value="${esc(rd('wallet')||'')}">
+  <input id="e" type="number" step="any" min="0" placeholder="${t('amount')}"><div>${[10,50,100,500].map(v=>`<button type="button" class="btn s q" data-v="${v}">${v}</button>`).join('')}</div><input id="r" placeholder="${t('ref')}">
   <input id="f" placeholder="${t('sender')}">
-  <button id="go">${t('go')}</button><div id="out"></div><small>${t('note')}</small>`;
-  document.getElementById('go').onclick=()=>{
-    const w=document.getElementById('w').value.trim();
-    if(!/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(w))return alert(t('bad'));
-    const d={n:document.getElementById('n').value||'',w,f:document.getElementById('f').value.trim(),t:Date.now()};
-    const url=location.origin+location.pathname+'#'+enc(d);
-    document.getElementById('out').innerHTML=`<div class="c">${t('share')}<br><a href="${url}">${url}</a></div>
-    <button id="cp">${t('copy')}</button>`;
-    document.getElementById('cp').onclick=function(){navigator.clipboard.writeText(url);this.textContent=t('copied');};
+  <select id="c" style="width:100%;padding:12px;margin:5px 0"><option>USD</option><option>CNY</option><option>EUR</option></select>
+  <select id="x" style="width:100%;padding:12px;margin:5px 0"><option value="0">${t('never')}</option><option value="30">30 ${t('min')}</option><option value="60">60 ${t('min')}</option><option value="1440">24 h</option></select>
+  <button class="btn" id="go">${t('go')}</button><div id="out"></div><p class="mu">${t('note')}</p></div>
+  ${h.length?`<div class="card"><b>${t('hist')}</b>${h.map(x=>`<div class="tx">${esc(x.n||'USDT')} <a href="${x.u}">${t('open')}</a> <span class="chip st" data-u="${x.u}">…</span></div>`).join('')}</div>`:''}
+  <div class="card" style="text-align:center"><b>${t('tip')}</b><div class="mu">${t('tipsub')}</div>${[1,5,10].map(v=>`<button class="btn s tp" data-v="${v}">☕ ${v} USDT</button>`).join('')}</div>
+  <p class="mu" style="text-align:center">${t('foot')}</p>`;
+  document.querySelectorAll('.q').forEach(b=>b.onclick=()=>$('#e').value=b.dataset.v);
+  document.querySelectorAll('.tp').forEach(b=>b.onclick=()=>{const d={n:t('tip'),w:TIP,e:+b.dataset.v,r:'',f:'',c:'USD',k:1,x:0,t:Date.now()};history.pushState('','','#'+enc(d));cur=d;render()});
+  dash();
+  $('#go').onclick=()=>{
+    const w=$('#w').value.trim();if(!/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(w))return alert(t('bad'));
+    wr('wallet',w);const d={n:$('#n').value,w,e:+$('#e').value||0,r:$('#r').value,f:$('#f').value.trim(),c:$('#c').value,x:+$('#x').value?Date.now()+$('#x').value*60000:0,t:Date.now()};
+    const u=location.origin+location.pathname+'#'+enc(d);
+    h.unshift({n:d.n,u});wr('links',JSON.stringify(h.slice(0,10)));
+    $('#out').innerHTML=`<div class="tx"><a href="${u}">${u}</a></div><button class="btn s" id="cp">${t('copy')}</button><button class="btn s" id="sh">${t('share')}</button>`;
+    $('#cp').onclick=function(){copy(u,this)};$('#sh').onclick=()=>share(u,d.n);
   };
 }
 
 function status(d){
-  app.innerHTML=`<h2>${t('title')}</h2><div id="o" class="c">${t('loading')}</div><small>${t('refresh')} <a href="#" id="new">${t('newlink')}</a></small>`;
-  document.getElementById('new').onclick=e=>{e.preventDefault();history.pushState('','',location.pathname);cur=null;render();};
-  const o=document.getElementById('o');
-  async function load(){
-    try{
-      const r=await fetch(`https://api.trongrid.io/v1/accounts/${d.w}/transactions/trc20?only_to=true&only_confirmed=true&limit=200&min_timestamp=${d.t}&contract_address=${USDT}`);
-      const j=await r.json();
-      const txs=(j.data||[]).filter(x=>x.token_info&&x.token_info.address===USDT&&x.to===d.w&&(!d.f||x.from===d.f))
-        .map(x=>({id:x.transaction_id,from:x.from,amt:Number(x.value)/10**(x.token_info.decimals??6),time:x.block_timestamp}));
-      const got=txs.reduce((s,x)=>s+x.amt,0),st=txs.length?'RECEIVED':'WAITING';
-      o.innerHTML=`<b>${esc(d.n||t('def'))}</b><br>${t('w')}: <code>${esc(d.w)}</code><br>${t('net')}<br>
-      ${t('st')}: <b class="${st}">${t(st)}</b><br>${t('total')}: <b>${got}</b> USDT
-      ${txs.map(x=>`<br>✔ ${x.amt} USDT ${t('from')} ${esc(x.from.slice(0,8))}… · ${new Date(x.time).toLocaleString()} · <a href="https://tronscan.org/#/transaction/${x.id}" target="_blank">tx</a>`).join('')}`;
-    }catch(err){o.textContent=t('err');}
-  }
-  load();timer=setInterval(load,20000);
+  cur=d;prev=null;
+  app.innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><b>${esc(d.n||'USDT')}</b>${d.r?`<span class="chip">#${esc(d.r)}</span>`:''}</div>
+  ${d.e?`<div class="big">${d.e} USDT</div><div class="mu" id="rq"></div>`:''}
+  <div class="bn WAITING" id="bn">${t('WAITING')}</div><div class="mu" id="cd" style="text-align:center"></div><div id="sm"></div></div>
+  <div class="card" id="pc"><div class="mu">${t('scan')}</div><div id="qr"></div>
+  <div id="ad" style="font-family:monospace;text-align:center">${esc(d.w)}</div>
+  <div style="text-align:center"><button class="btn s" id="cp">${t('copy')}</button></div>
+  <div class="warn">⚠ ${t('warn')}</div></div>
+  <div class="card" id="ls"></div>
+  <div class="noprint"><button class="btn s" onclick="print()">🧾 ${t('rcpt')}</button><button class="btn s" id="cv">⬇ ${t('csv')}</button><button class="btn s" id="sh">${t('share')}</button><button class="btn s" id="nw">${t('newl')}</button></div>
+  <p class="mu" style="text-align:center">${t('foot')}</p>`;
+  if(window.QRCode)new QRCode($('#qr'),{text:d.w,width:170,height:170});
+  $('#cp').onclick=function(){copy(d.w,this)};$('#sh').onclick=()=>share(location.href,d.n);
+  $('#nw').onclick=()=>{history.pushState('','',location.pathname);cur=null;render()};
+  $('#cv').onclick=()=>{const c='txid,from,amount,time,confirmed\n'+last.map(x=>[x.id,x.from,x.amt,new Date(x.time).toISOString(),x.ok].join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));a.download='deposits.csv';a.click()};
+  fetch('https://open.er-api.com/v6/latest/USD').then(r=>r.json()).then(j=>{rates=j.rates||{};paint()}).catch(()=>{});
+  load();timer=setInterval(load,10000);tick();timer2=setInterval(tick,1000);
 }
-
+let view={};
+function tick(){const e=$('#cd');if(!e||!cur||!cur.x)return;const s=Math.max(0,Math.floor((cur.x-Date.now())/1000));e.textContent=view.st==='PAID'||s<=0?'':'⏱ '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+async function dash(){for(const el of document.querySelectorAll('.st')){try{const d=dec(el.dataset.u.split('#')[1]);const r=await fetch(`https://api.trongrid.io/v1/accounts/${d.w}/transactions/trc20?only_to=true&only_confirmed=true&limit=200&min_timestamp=${d.t}&contract_address=${U}`).then(r=>r.json());
+const ok=(r.data||[]).filter(x=>x.token_info&&x.token_info.address===U&&x.to===d.w&&(!d.f||x.from===d.f)&&(!d.x||x.block_timestamp<=d.x)).reduce((s,x)=>s+Number(x.value)/10**(x.token_info.decimals??6),0);
+const ex=d.x&&Date.now()>d.x,st=d.e?(ok>=d.e*.999?'PAID':ok>0?'PARTIAL':ex?'EXPIRED':'WAITING'):(ok>0?'PAID':ex?'EXPIRED':'WAITING');
+el.textContent=t(st)+(ok?' · '+n2(ok):'')}catch{el.textContent='?'}}}
+function paint(){
+  if(!cur||!view.st)return;const d=cur,{st,ok,pend}=view,tot=ok+pend;
+  $('#bn').className='bn '+st;$('#bn').innerHTML=(st==='PAID'?'<span class="k">✓</span> ':'')+(d.k&&st==='PAID'?t('thx'):t(st));$('#pc').style.display=st==='EXPIRED'?'none':'';document.title=t(st)+' · USDT Pay';
+  if(d.e&&$('#rq'))$('#rq').textContent=t('req')+fiat(d.e);
+  $('#sm').innerHTML=`<div>${t('rcv')}: <b>${n2(ok)} USDT</b>${fiat(ok)}</div>`+(d.e&&tot<d.e?`<div>${t('due')}: <b>${n2(d.e-tot)} USDT</b></div>`:'')+(d.e&&ok>d.e*1.001?`<div>${t('over')}: <b>${n2(ok-d.e)} USDT</b></div>`:'');
+  $('#ls').innerHTML=last.length?last.map(x=>`<div class="tx">${x.ok?'✔':'⏳'} <b>${x.amt} USDT</b> ${t('from')} ${esc(x.from.slice(0,8))}… · ${new Date(x.time).toLocaleString()} · <a href="https://tronscan.org/#/transaction/${x.id}" target="_blank" rel="noopener">tx</a></div>`).join(''):`<span class="mu">—</span>`;
+}
+async function load(){
+  const d=cur;if(!d)return;
+  try{
+    const b=`https://api.trongrid.io/v1/accounts/${d.w}/transactions/trc20?only_to=true&limit=200&min_timestamp=${d.t}&contract_address=${U}`;
+    const [a,c]=await Promise.all([fetch(b).then(r=>r.json()),fetch(b+'&only_confirmed=true').then(r=>r.json())]);
+    const okset=new Set((c.data||[]).map(x=>x.transaction_id));
+    last=(a.data||[]).filter(x=>x.token_info&&x.token_info.address===U&&x.to===d.w&&(!d.f||x.from===d.f)&&(!d.x||x.block_timestamp<=d.x))
+      .map(x=>({id:x.transaction_id,from:x.from,amt:Number(x.value)/10**(x.token_info.decimals??6),time:x.block_timestamp,ok:okset.has(x.transaction_id)}));
+    const ok=last.filter(x=>x.ok).reduce((s,x)=>s+x.amt,0),pend=last.filter(x=>!x.ok).reduce((s,x)=>s+x.amt,0),tot=ok+pend;
+    let st='WAITING';
+    if(d.e){st=ok>=d.e*0.999?'PAID':pend>0&&tot>=d.e*0.999?'CONFIRMING':tot>0?'PARTIAL':'WAITING'}
+    else st=ok>0?'PAID':pend>0?'CONFIRMING':'WAITING';
+    if(st!=='PAID'&&d.x&&Date.now()>d.x)st='EXPIRED';
+    if(prev&&prev!=='PAID'&&st==='PAID')ping();prev=st;view={st,ok,pend};paint();
+  }catch(e){const s=$('#sm');if(s)s.innerHTML=`<span class="mu">${t('err')}</span>`}
+}
 function render(){
-  clearInterval(timer);langBar();
-  if(!cur){const h=location.hash.slice(1);if(h){try{cur=dec(h);}catch{}}}
+  clearInterval(timer);clearInterval(timer2);
+  if(!cur){const h=location.hash.slice(1);if(h==='me')cur={n:t('tip'),w:TIP,e:0,r:'',f:'',c:'USD',x:0,t:Date.UTC(2026,9,26)};else if(h){try{cur=dec(h)}catch{}}}
   cur?status(cur):form();
 }
+onhashchange=()=>{cur=null;render()};
 render();
 </script>
 </body>
