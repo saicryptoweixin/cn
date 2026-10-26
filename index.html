@@ -1,168 +1,233 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SAICRYPTO PLATFORM — Crypto Payment Links</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07152f">
+<title>SAICRYPTO PLATFORM — Global Crypto Payments</title>
 <style>
-:root{--bg:#f4f6fb;--card:#fff;--tx:#0f172a;--mu:#64748b;--bd:#e2e8f0;--ac:#2563eb;--ok:#16a34a;--wa:#d97706}
-@media(prefers-color-scheme:dark){:root:not([data-t=light]){--bg:#0b0f17;--card:#141a26;--tx:#e8edf5;--mu:#8b97ab;--bd:#243049}}
-:root[data-t=dark]{--bg:#0b0f17;--card:#141a26;--tx:#e8edf5;--mu:#8b97ab;--bd:#243049}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 14px 30px}
-.w{max-width:480px;margin:auto}
-.top{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
-.top div{display:flex;gap:6px}
-select,button,input{font:inherit;color:var(--tx)}
-select,.ic{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:6px 8px;cursor:pointer}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px;margin-bottom:14px;word-break:break-all}
-input{width:100%;padding:12px;margin:5px 0;border:1px solid var(--bd);border-radius:10px;background:var(--bg)}
-.btn{width:100%;padding:13px;border:0;border-radius:10px;background:var(--ac);color:#fff;font-weight:600;cursor:pointer;margin-top:6px}
-.btn.s{background:var(--bg);color:var(--tx);border:1px solid var(--bd);width:auto;padding:9px 14px;margin:4px 4px 0 0;font-weight:500}
-.bn{border-radius:12px;padding:14px;text-align:center;font-weight:700;font-size:18px;margin:10px 0}
-.WAITING{background:var(--bg);color:var(--mu)}.CONFIRMING,.PARTIAL{background:#fef3c7;color:var(--wa)}.PAID{background:#dcfce7;color:var(--ok)}
-.EXPIRED{background:#fee2e2;color:#b91c1c}
-.PAID .k{display:inline-block;animation:pop .5s}
-@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.4)}100%{transform:scale(1)}}
-.mu{color:var(--mu);font-size:14px}.big{font-size:26px;font-weight:700}
-.warn{background:#fef3c7;color:#92400e;border-radius:10px;padding:10px;font-size:14px;margin:10px 0}
-.chip{display:inline-block;background:var(--bg);border:1px solid var(--bd);border-radius:20px;padding:2px 10px;font-size:13px}
-#qr{display:flex;justify-content:center;margin:12px 0}#qr img,#qr canvas{border-radius:8px;background:#fff;padding:8px}
-.tx{border-top:1px solid var(--bd);padding:8px 0;font-size:14px}
-a{color:var(--ac)}
-.support-title{display:flex;align-items:center;gap:8px;font-size:17px;margin:0 0 5px}.support-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.support-btn{border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:10px;padding:11px 8px;text-align:left;cursor:pointer;min-width:0}.support-btn strong{display:block;font-size:13px}.support-btn small{display:block;color:var(--mu);font-size:11px;margin-top:3px;overflow-wrap:anywhere}.support-btn.primary-support{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}.support-detail{display:none;border:1px solid var(--bd);border-radius:12px;padding:12px;margin-top:12px;overflow-wrap:anywhere}.support-detail.show{display:block}.support-address{font:12px/1.5 ui-monospace,monospace;overflow-wrap:anywhere;margin:8px 0}.support-amount{font-size:14px;font-weight:700;margin:8px 0;color:var(--ac)}.support-note{font-size:12px;color:var(--mu);margin-top:10px}.brandmark{color:#2563eb}@media(max-width:360px){.support-grid{grid-template-columns:1fr}}@media print{.top,.noprint,.warn,.support-card{display:none}body{background:#fff;color:#000}}
+:root{--navy:#07152f;--navy2:#0b2044;--blue:#1763f6;--blue2:#3b82ff;--ink:#10203f;--muted:#637391;--line:#dbe5f4;--bg:#f3f7fd;--white:#fff;--green:#0b9b68;--amber:#b96a00;--red:#c83343;--shadow:0 12px 32px #102e5810}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{display:grid;grid-template-columns:244px 1fr;min-height:100vh}.sidebar{background:linear-gradient(180deg,#07152f,#091c3d);color:#eaf1ff;padding:22px 14px;display:flex;flex-direction:column;gap:22px}.brand{display:flex;gap:12px;align-items:center;padding:2px 8px 15px;border-bottom:1px solid #ffffff17}.logo{width:48px;height:48px;border-radius:14px;background:#fff;display:grid;place-items:center;flex:none;box-shadow:0 4px 18px #0002}.logo svg{width:36px;height:36px}.brandname{font-size:20px;font-weight:850;letter-spacing:.3px}.brandname span{color:#3984ff}.brand small{display:block;letter-spacing:5px;font-size:9px;color:#b5c9ec;margin-top:-2px}.nav{display:grid;gap:6px}.nav button{border:0;background:transparent;color:#d7e3f9;text-align:left;padding:13px 14px;border-radius:10px;display:flex;gap:12px;align-items:center}.nav button.active,.nav button:hover{background:#1763f6;color:white}.nav .ico{width:20px;text-align:center;font-size:17px}.trust{border:1px solid #24477b;background:#0b2852;border-radius:12px;padding:16px;margin-top:auto}.trust h3{margin:0 0 12px;font-size:13px}.trust p{font-size:12px;color:#c9d8f2;margin:8px 0}.trust b{color:#2ee28b}.sidefoot{font-size:11px;color:#91a6c9;padding:0 8px}.main{min-width:0}.topbar{height:70px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;gap:14px}.top-left{display:flex;align-items:center;gap:12px}.top-left strong{font-size:16px}.pill{background:#edf4ff;color:#2456a6;border-radius:20px;padding:6px 10px;font-size:11px;font-weight:650}.top-actions{display:flex;align-items:center;gap:9px}.select-sm,.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 12px;border-radius:9px}.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}.btn.secondary{background:#edf4ff;border-color:#d7e6ff;color:#1755c8}.btn.danger{color:var(--red)}.btn.small{padding:6px 9px;font-size:12px}.content{padding:20px 22px 26px;max-width:1700px;margin:auto}.hero{background:radial-gradient(circle at 80% 30%,#1468df70,transparent 30%),linear-gradient(105deg,#081632,#0d2a5a 72%,#082049);border-radius:14px;color:white;padding:25px 28px;display:flex;justify-content:space-between;gap:20px;align-items:center;overflow:hidden;position:relative}.hero h1{font-size:clamp(22px,2.2vw,34px);line-height:1.12;margin:0 0 10px;letter-spacing:-.7px}.hero h1 span{color:#5da0ff}.hero p{color:#d1e2ff;max-width:620px;margin:0}.hero .tagline{font-size:11px;letter-spacing:4px;color:#b8d0f6;margin-bottom:8px}.hero-right{font-size:72px;opacity:.95;min-width:130px;text-align:center}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:16px 0}.stat,.panel{background:white;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}.stat{padding:17px}.stat-top{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.stat .value{font-size:25px;font-weight:800;margin:8px 0 2px;letter-spacing:-.5px}.stat .sub{font-size:11px;color:var(--muted)}.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.8fr);gap:16px}.stack{display:grid;gap:16px;align-content:start}.panel{padding:18px;min-width:0}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}.panelhead h2{font-size:16px;margin:0;display:flex;align-items:center;gap:9px}.panelhead p{color:var(--muted);font-size:12px;margin:4px 0 0}.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:grid;gap:6px;min-width:0}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:700;color:#263a5e}.field label span{font-weight:400;color:#8392ad}.field input,.field select,.field textarea{width:100%;min-width:0;padding:11px 12px;border:1px solid #d6e1f2;border-radius:8px;background:#fff;color:#17294a;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#5590ff;box-shadow:0 0 0 3px #1763f615}.inline{display:flex;gap:8px}.inline input{flex:1}.form-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.result{margin-top:15px;background:#f6f9ff;border:1px solid #dce8fc;border-radius:10px;padding:14px;display:none}.result.show{display:block}.result-url{overflow-wrap:anywhere;font-size:12px;padding:10px;background:white;border:1px solid var(--line);border-radius:7px;margin:9px 0}.qrbox{display:grid;place-items:center;min-height:220px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px}.qrbox canvas,.qrbox img{max-width:100%;height:auto!important}.note{font-size:11px;color:var(--muted);line-height:1.5}.warning{border-left:3px solid #f1aa27;background:#fff8e8;color:#75501a;padding:10px 12px;border-radius:6px;font-size:12px;margin-top:12px}.success{color:var(--green)}.badge{display:inline-block;padding:4px 8px;border-radius:20px;font-size:10px;font-weight:750;background:#e9f8f1;color:#087c55;white-space:nowrap}.badge.pending{background:#fff1db;color:#9a5a00}.badge.partial{background:#eaf1ff;color:#245ec8}.badge.expired{background:#ffe9ec;color:#b62c3b}.badge.failed{background:#ffe9ec;color:#b62c3b}.assetlist{display:grid;gap:0}.assetrow{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #edf1f8}.assetrow:last-child{border-bottom:0}.coin{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;font-size:16px;font-weight:800;color:#fff;background:#1aab84;flex:none}.coin.blue{background:#2775e8}.coin.orange{background:#f49b14}.coin.black{background:#2b354a}.coin.purple{background:#7b50dc}.assetmeta{flex:1;min-width:0}.assetmeta strong{display:block;font-size:13px}.assetmeta small{color:var(--muted);font-size:11px}.chainchips{display:flex;gap:4px;flex-wrap:wrap}.chain{font-size:9px;font-weight:750;background:#eef4fd;color:#42618e;border-radius:6px;padding:4px 6px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid #edf1f8}th{font-size:10px;color:#71819d;text-transform:uppercase;letter-spacing:.5px;background:#f8faff}td{color:#263957}tr:last-child td{border-bottom:0}.empty{text-align:center;color:var(--muted);padding:28px 12px;font-size:12px}.search{max-width:220px;padding:8px 10px;border:1px solid var(--line);border-radius:8px}.page{display:none}.page.active{display:block}.featuregrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.feature{padding:15px;border:1px solid var(--line);border-radius:10px}.feature .ficon{font-size:22px}.feature strong{display:block;margin:7px 0 4px}.feature p{font-size:12px;color:var(--muted);margin:0}.toggleline{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid #edf1f8}.toggleline:last-child{border:0}.toggleline small{display:block;color:var(--muted);margin-top:3px}.toggleline input{width:18px;height:18px}.footer{margin-top:18px;padding:17px 4px;color:#7a8aa5;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.toast{position:fixed;bottom:20px;right:20px;background:#09234b;color:#fff;padding:12px 16px;border-radius:9px;box-shadow:0 10px 28px #0003;z-index:50;max-width:340px;display:none}.toast.show{display:block}.mobilemenu{display:none}.modalback{position:fixed;inset:0;background:#07152f99;z-index:60;display:none;align-items:center;justify-content:center;padding:20px}.modalback.show{display:flex}.modal{background:#fff;border-radius:14px;padding:22px;max-width:520px;width:100%;max-height:90vh;overflow:auto}.modal h2{margin-top:0}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.muted{color:var(--muted)}@media(max-width:1100px){.shell{grid-template-columns:210px 1fr}.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-right{font-size:50px}}@media(max-width:760px){.shell{display:block}.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:255px;z-index:70;box-shadow:20px 0 40px #0003}.sidebar.open{display:flex}.topbar{height:60px;padding:0 14px}.content{padding:13px}.mobilemenu{display:inline-block}.hero{padding:20px}.hero-right{display:none}.fieldgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.featuregrid{grid-template-columns:1fr}.stats{gap:9px}.stat{padding:12px}.stat .value{font-size:21px}.panel{padding:14px}.top-actions .pill{display:none}.brand{padding-bottom:12px}}@media print{.sidebar,.topbar,.hero,.stats,.footer,.form-actions,.nav,.no-print{display:none!important}.shell{display:block}.content{padding:0}.panel{box-shadow:none;break-inside:avoid}.page{display:block!important}}
+
+.donate-panel{margin-top:16px;border:1px solid #d6e4fb;background:linear-gradient(135deg,#fff,#f2f7ff);border-radius:12px;padding:18px;box-shadow:var(--shadow)}
+.donate-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.donate-head h2{margin:0;font-size:17px}
+.donate-actions{display:flex;gap:8px;flex-wrap:wrap}
+.donate-wallets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.donate-wallet{min-width:0;border:1px solid var(--line);background:#fff;border-radius:9px;padding:12px}
+.donate-wallet strong{display:block;margin-bottom:4px;font-size:12px}
+.donate-wallet code{display:block;overflow-wrap:anywhere;word-break:break-word;color:#29446d;font-size:11px;margin:7px 0 10px}
+.donate-wallet .btn{max-width:100%}
+@media(max-width:760px){.donate-wallets{grid-template-columns:1fr}}
 </style>
 </head>
-<body><div class="w"><div class="top"><b style="letter-spacing:.3px">◈ SAI<span style="color:#2563eb">CRYPTO</span> <small style="display:block;font-size:10px;color:var(--mu);font-weight:500;letter-spacing:2px">PAYMENT PLATFORM</small></b><div><select id="lg" aria-label="language"><option value="en">English</option><option value="zh">中文</option><option value="es">Español</option><option value="ru">Русский</option></select><button class="ic" id="th">◐</button></div></div><div id="app"></div></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="logo"><svg viewBox="0 0 100 100" aria-label="SAI logo"><path d="M12 78 42 18Q50 3 59 19L90 78H69L49 39 29 78Z" fill="#07152f"/><path d="M42 78 56 51 70 78Z" fill="#1763f6"/></svg></div><div><div class="brandname">SAI<span>CRYPTO</span></div><small>PLATFORM</small></div></div>
+  <nav class="nav" id="nav">
+    <button class="active" data-page="dashboard"><span class="ico">⌂</span>Dashboard</button>
+    <button data-page="create"><span class="ico">↗</span>Create Payment Link</button>
+    <button data-page="invoices"><span class="ico">▤</span>My Invoices</button>
+    <button data-page="transactions"><span class="ico">⇄</span>Transactions</button>
+    <button data-page="assets"><span class="ico">◈</span>Asset Directory</button>
+    <button data-page="reports"><span class="ico">▥</span>Reports & Export</button>
+    <button data-page="settings"><span class="ico">⚙</span>Settings</button>
+  </nav>
+  <div class="trust"><h3>🛡 Your Funds. Your Control.</h3><p><b>✓</b> No registration required</p><p><b>✓</b> Non-custodial design</p><p><b>✓</b> Never enter a seed phrase</p><p><b>✓</b> Wallets stay yours</p></div>
+  <div class="sidefoot">© 2026 SAICRYPTO PLATFORM<br>Build the future of payments</div>
+</aside>
+<main class="main">
+<header class="topbar"><div class="top-left"><button class="btn mobilemenu" id="menuBtn" aria-label="Open menu">☰</button><strong id="pageTitle">Dashboard</strong><span class="pill">FREE · NO ACCOUNT</span></div><div class="top-actions"><select class="select-sm" id="language" aria-label="Language"><option value="en">🌐 English</option><option value="zh">中文</option><option value="es">Español</option><option value="ru">Русский</option></select><button class="btn" id="themeBtn" title="Toggle theme">☾</button></div></header>
+<div class="content">
+<section class="hero"><div><div class="tagline">SAICRYPTO PLATFORM</div><h1>Global Crypto Payments<br><span>Made Simple.</span></h1><p>Create payment requests, receive crypto directly into your own wallet, and organize invoices without creating an account. Free to use; blockchain/network fees may apply.</p></div><div class="hero-right">◉</div></section>
+<section class="stats">
+<div class="stat"><div class="stat-top"><span>Total Received (tracked)</span><span>↗</span></div><div class="value" id="statReceived">$0.00</div><div class="sub">Based on locally saved confirmed records</div></div>
+<div class="stat"><div class="stat-top"><span>Payment Requests</span><span>↗</span></div><div class="value" id="statInvoices">0</div><div class="sub">Saved in this browser only</div></div>
+<div class="stat"><div class="stat-top"><span>Confirmed Records</span><span>✓</span></div><div class="value" id="statConfirmed">0</div><div class="sub">Not a substitute for wallet verification</div></div>
+<div class="stat"><div class="stat-top"><span>Supported Networks</span><span>◈</span></div><div class="value">8+</div><div class="sub">Availability varies by asset and scanner</div></div>
+</section>
+
+<section class="page active" id="page-dashboard">
+<div class="layout">
+<div class="stack">
+<div class="panel">
+<div class="panelhead"><div><h2>🔗 Create Payment Link</h2><p>Generate a shareable payment request for your own wallet.</p></div><span class="pill">No sign-up</span></div>
+<form id="paymentForm"><div class="fieldgrid">
+<div class="field"><label for="asset">Select asset</label><select id="asset"><option value="USDT">USDT · Tether</option><option value="USDC">USDC · USD Coin</option><option value="ETH">ETH · Ethereum</option><option value="BNB">BNB · BNB</option><option value="BTC">BTC · Bitcoin (link only)</option><option value="SOL">SOL · Solana (link only)</option><option value="TRX">TRX · TRON</option><option value="MATIC">POL · Polygon</option><option value="TON">TON · Toncoin (link only)</option><option value="XRP">XRP · XRP Ledger (link only)</option><option value="LTC">LTC · Litecoin (link only)</option><option value="DOGE">DOGE · Dogecoin (link only)</option></select></div>
+<div class="field"><label for="network">Network</label><select id="network"></select></div>
+<div class="field full"><label for="wallet">Receiving wallet address <span>· double-check the network</span></label><div class="inline"><input id="wallet" required autocomplete="off" placeholder="Paste your public receiving address"><button type="button" class="btn" id="pasteBtn" title="Paste from clipboard">Paste</button></div></div>
+<div class="field"><label for="amount">Amount <span>(optional)</span></label><input id="amount" inputmode="decimal" placeholder="e.g. 100.00"></div>
+<div class="field"><label for="fiat">Display currency</label><select id="fiat"><option value="USD">USD · US Dollar</option><option value="EUR">EUR · Euro</option><option value="CNY">CNY · Chinese Yuan</option><option value="GBP">GBP · Pound Sterling</option><option value="AED">AED · UAE Dirham</option><option value="ETB">ETB · Ethiopian Birr</option></select></div>
+<div class="field"><label for="reference">Reference / invoice number <span>(optional)</span></label><input id="reference" maxlength="100" placeholder="e.g. INV-2026-001"></div>
+<div class="field"><label for="payer">Payer wallet <span>(optional; informational)</span></label><input id="payer" placeholder="Expected sender address (optional)"></div>
+<div class="field"><label for="expiry">Expiry <span>(optional)</span></label><select id="expiry"><option value="0">No expiry</option><option value="1">1 hour</option><option value="24" selected>24 hours</option><option value="72">3 days</option><option value="168">7 days</option><option value="720">30 days</option></select></div>
+<div class="field"><label for="merchant">Merchant / payee name <span>(optional)</span></label><input id="merchant" maxlength="80" placeholder="Business or recipient name"></div>
+<div class="field full"><label for="description">Description / line item <span>(optional)</span></label><input id="description" maxlength="180" placeholder="What is this payment for?"></div>
+</div><div class="form-actions"><button class="btn primary" type="submit">↗ Create Payment Link</button><button class="btn" type="reset">Clear form</button></div></form>
+<div class="result" id="resultBox"><strong>Payment request created</strong><p class="note">This is a shareable request, not proof of payment. The receiving wallet is yours; SAICRYPTO does not custody funds.</p><div class="result-url" id="resultUrl"></div><div class="form-actions"><button class="btn primary" id="copyLink">Copy payment link</button><button class="btn" id="saveInvoice">Save invoice</button><button class="btn" id="downloadReceipt">Print / save PDF</button></div></div>
+</div>
+<div class="panel"><div class="panelhead"><div><h2>◷ Recent Activity</h2><p>Records stored in this browser on this device.</p></div><button class="btn small" data-goto="transactions">View all →</button></div><div class="tablewrap"><table><thead><tr><th>Created</th><th>Asset / Network</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody id="recentRows"></tbody></table><div class="empty" id="recentEmpty">No activity yet. Create a payment request to get started.</div></div></div>
+</div>
+<div class="stack">
+<div class="panel"><div class="panelhead"><div><h2>▦ QR Code</h2><p>Scan to open the wallet payment details.</p></div></div><div class="qrbox" id="qrbox"><div class="muted">Create a link to generate a QR code.</div></div><div class="form-actions"><button class="btn" id="downloadQR">Download QR</button></div><p class="note">QR codes encode the payment URL or address. Some wallets may not automatically fill token, amount, or network details; always verify before sending.</p></div>
+<div class="panel"><div class="panelhead"><div><h2>◎ Supported Assets</h2><p>Coverage is asset- and network-specific.</p></div><button class="btn small" data-goto="assets">View all →</button></div><div class="assetlist" id="miniAssets"></div></div>
+<div class="panel"><div class="panelhead"><div><h2>⇄ Multi-Chain Support</h2></div></div><div class="featuregrid" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="feature"><div class="ficon">🔴</div><strong>TRON</strong><p>USDT TRC-20 link + scanner</p></div><div class="feature"><div class="ficon">◆</div><strong>EVM chains</strong><p>Ethereum / BNB / Polygon / Base / Arbitrum / Optimism</p></div><div class="feature"><div class="ficon">₿</div><strong>Bitcoin</strong><p>Address links; not monitored here</p></div><div class="feature"><div class="ficon">◎</div><strong>Solana & others</strong><p>Address links; verify in wallet</p></div></div><div class="warning">Only supported scanner configurations can show on-page status. For all other chains, verify the transaction directly in the official block explorer.</div></div>
+</div>
+</div>
+</section>
+
+<section class="donate-panel" id="developer-support" aria-labelledby="donateTitle">
+  <div class="donate-head">
+    <div><h2 id="donateTitle">☕ Support the Developer</h2><p class="note">Enjoying SAICRYPTO? You can buy the developer a coffee or make a voluntary donation directly to the wallet addresses below.</p></div>
+    <div class="donate-actions">
+      <button class="btn secondary" type="button" data-support-scroll>☕ Buy Me a Coffee</button>
+      <button class="btn primary" type="button" data-support-scroll>♥ Donate to the Developer</button>
+    </div>
+  </div>
+  <p class="note">These receiving addresses are built into the page code and are not editable through the interface. Always select the exact network shown; crypto transfers are generally irreversible. No payment is processed by these buttons—they display and copy your address.</p>
+  <div class="donate-wallets" id="donationWallets"></div>
+</section>
+
+<section class="page" id="page-create"><div class="layout"><div class="panel"><div class="panelhead"><div><h2>🔗 Create a Payment Request</h2><p>Use the form below to create a new shareable request.</p></div></div><p>Use the dashboard form above to create your request. The same payment form is available there, with a QR preview and copy controls.</p><button class="btn primary" data-goto="dashboard">Go to dashboard</button></div><div class="panel"><h2>Before sharing</h2><p class="note">Confirm the wallet address and exact network independently. SAICRYPTO never asks for private keys, seed phrases, or exchange passwords. Sending an asset on the wrong chain can result in permanent loss.</p></div></div></section>
+
+<section class="page" id="page-invoices"><div class="panel"><div class="panelhead"><div><h2>▤ My Invoices</h2><p>Saved requests on this device. This is not cloud-synced.</p></div><div class="form-actions" style="margin:0"><button class="btn" id="exportInvoices">Export CSV</button><button class="btn" id="backupBtn">Backup data</button><button class="btn" id="restoreBtn">Restore backup</button><input type="file" id="restoreFile" accept="application/json" hidden></div></div><div class="tablewrap"><table><thead><tr><th>Invoice</th><th>Payee</th><th>Asset / Network</th><th>Requested</th><th>Created</th><th>Expiry</th><th>Actions</th></tr></thead><tbody id="invoiceRows"></tbody></table><div class="empty" id="invoiceEmpty">No saved invoices yet. Create a payment link and choose “Save invoice”.</div></div></div></section>
+
+<section class="page" id="page-transactions"><div class="panel"><div class="panelhead"><div><h2>⇄ Transactions & Payment Status</h2><p>Local notes and scanner results; always verify large payments on-chain.</p></div><div class="form-actions" style="margin:0"><input class="search" id="txSearch" placeholder="Search reference / address"><button class="btn" id="scanBtn">Check supported networks</button><button class="btn" id="exportTx">Export CSV</button></div></div><div class="warning">Blockchain monitoring is best-effort and may be limited by public RPC/API rate limits. This browser-only tool does not provide a backend webhook, guaranteed finality, or fraud-proof settlement verification.</div><div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>Date</th><th>Reference</th><th>Asset / Network</th><th>Amount</th><th>Status</th><th>Transaction</th></tr></thead><tbody id="txRows"></tbody></table><div class="empty" id="txEmpty">No transaction records. Create a payment request; scanner support depends on chain and configuration.</div></div></div></section>
+
+<section class="page" id="page-assets"><div class="panel"><div class="panelhead"><div><h2>◈ Asset & Network Directory</h2><p>Available payment-request formats. “Link only” means this version does not automatically monitor deposits for that chain.</p></div><input class="search" id="assetSearch" placeholder="Search asset or network"></div><div class="tablewrap"><table><thead><tr><th>Asset</th><th>Network</th><th>Token standard</th><th>Payment link</th><th>Automatic tracking</th><th>Explorer</th></tr></thead><tbody id="assetRows"></tbody></table></div><p class="note">This is a curated directory, not a promise to support every token. Unknown/custom tokens are not automatically trusted. Confirm token contract addresses from official project sources before use.</p></div></section>
+
+<section class="page" id="page-reports"><div class="layout"><div class="panel"><div class="panelhead"><div><h2>▥ Reports & Export</h2><p>Download your local records for bookkeeping.</p></div></div><div class="featuregrid"><div class="feature"><div class="ficon">▤</div><strong>Invoices CSV</strong><p>Export saved payment requests.</p><button class="btn small" id="reportInvoices" style="margin-top:10px">Export invoices</button></div><div class="feature"><div class="ficon">⇄</div><strong>Transactions CSV</strong><p>Export transaction notes and status records.</p><button class="btn small" id="reportTransactions" style="margin-top:10px">Export transactions</button></div><div class="feature"><div class="ficon">▣</div><strong>Printable report</strong><p>Open a print-friendly report for saving as PDF.</p><button class="btn small" id="printReport" style="margin-top:10px">Print report</button></div></div></div><div class="panel"><h2>Important accounting note</h2><p class="note">The dashboard’s “Total Received” is calculated from locally saved records, not independently audited blockchain data or a live fiat valuation. Do not use it as the sole accounting record or proof of settlement.</p></div></div></section>
+
+<section class="page" id="page-settings"><div class="layout"><div class="panel"><div class="panelhead"><div><h2>⚙ Preferences & Data</h2><p>Settings are saved locally on this browser.</p></div></div><div class="toggleline"><div><strong>Dark mode</strong><small>Switch the interface to a dark appearance.</small></div><input type="checkbox" id="darkToggle"></div><div class="toggleline"><div><strong>Confirmation warnings</strong><small>Keep safety notes visible when generating requests.</small></div><input type="checkbox" id="warningsToggle" checked></div><div class="toggleline"><div><strong>Local history</strong><small>Keep invoice and transaction records in browser storage.</small></div><input type="checkbox" id="historyToggle" checked></div><div class="form-actions"><button class="btn" id="settingsBackup">Download backup</button><button class="btn danger" id="clearData">Delete local data</button></div></div><div class="panel"><h2>Developer integrations</h2><p class="note">REST API, signed webhooks, hosted checkout, e-commerce plugins, automatic email/SMS notifications, shared team access, and reliable server-side payment matching require a backend service and secret management. They cannot be safely implemented as secure production integrations in a static HTML file alone.</p><div class="featuregrid" style="grid-template-columns:1fr"><div class="feature"><strong>API / Webhooks</strong><p>Architecture-ready concept; not connected in this standalone edition.</p></div><div class="feature"><strong>Wallet connection</strong><p>Not required. Never enter seed phrases or private keys into this app.</p></div><div class="feature"><strong>Exchange-rate quotes</strong><p>Fiat selection labels the invoice display currency; live conversion is not performed in this offline-first edition.</p></div></div></div></div></section>
+<div class="footer"><span>SAICRYPTO PLATFORM · Simple · Secure · Global</span><span>Non-custodial request tool · Network fees may apply · Verify every payment</span></div>
+</div>
+</main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<div class="modalback" id="modalBack"><div class="modal"><h2 id="modalTitle">Invoice details</h2><div id="modalBody"></div><div class="modal-actions"><button class="btn" id="modalClose">Close</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
 <script>
-const D={
-en:{sub:'Free. No sign-up. Funds go straight to your wallet.',create:'Create payment link',name:'Title (optional)',wallet:'Your TRON wallet (starts with T)',amount:'Amount requested in USDT (optional)',ref:'Reference / invoice no. (optional)',sender:'Only count deposits from this sender wallet (optional)',go:'Create link',note:'Tracks confirmed USDT (TRC20) deposits into your wallet made after the link is created.',share:'Share',copy:'Copy',copied:'Copied ✓',bad:'Enter a valid TRON wallet address',WAITING:'Waiting for payment',CONFIRMING:'Payment detected, confirming…',PAID:'Payment confirmed',PARTIAL:'Partial payment received',warn:'Send only USDT on the TRON (TRC20) network. Other networks or tokens will be lost.',rcv:'Received',due:'Still due',over:'Overpaid by',from:'from',err:'Connection problem, retrying…',newl:'New link',rcpt:'Receipt',csv:'CSV',hist:'Your links',scan:'Scan or copy the address',foot:'This page only reports what the blockchain shows. It never holds funds and cannot verify who is paying.',req:'Requested',open:'Open'},
-zh:{sub:'免费，无需注册，资金直接进入您的钱包。',create:'创建收款链接',name:'标题（可选）',wallet:'您的波场(TRON)钱包地址（以T开头）',amount:'请求金额 USDT（可选）',ref:'参考号 / 发票号（可选）',sender:'仅统计此付款钱包的转账（可选）',go:'生成链接',note:'仅追踪链接创建之后转入您钱包的已确认 USDT（TRC20）。',share:'分享',copy:'复制',copied:'已复制 ✓',bad:'请输入有效的波场钱包地址',WAITING:'等待付款',CONFIRMING:'已检测到付款，确认中…',PAID:'付款已确认',PARTIAL:'已收到部分付款',warn:'请仅通过波场(TRC20)网络转入 USDT。其他网络或代币将会丢失。',rcv:'已收到',due:'尚欠',over:'多付',from:'来自',err:'连接问题，正在重试…',newl:'新链接',rcpt:'收据',csv:'CSV',hist:'我的链接',scan:'扫码或复制地址',foot:'本页仅显示区块链上的数据，不托管资金，也无法验证付款人身份。',req:'请求金额',open:'打开'},
-es:{sub:'Gratis. Sin registro. Los fondos van directo a tu billetera.',create:'Crear enlace de pago',name:'Título (opcional)',wallet:'Tu billetera TRON (empieza con T)',amount:'Monto solicitado en USDT (opcional)',ref:'Referencia / n.º de factura (opcional)',sender:'Contar solo depósitos de esta billetera (opcional)',go:'Crear enlace',note:'Rastrea depósitos USDT (TRC20) confirmados en tu billetera hechos después de crear el enlace.',share:'Compartir',copy:'Copiar',copied:'Copiado ✓',bad:'Introduce una dirección TRON válida',WAITING:'Esperando el pago',CONFIRMING:'Pago detectado, confirmando…',PAID:'Pago confirmado',PARTIAL:'Pago parcial recibido',warn:'Envía solo USDT por la red TRON (TRC20). Otras redes o tokens se perderán.',rcv:'Recibido',due:'Pendiente',over:'Pagado de más',from:'de',err:'Problema de conexión, reintentando…',newl:'Nuevo enlace',rcpt:'Recibo',csv:'CSV',hist:'Tus enlaces',scan:'Escanea o copia la dirección',foot:'Esta página solo muestra lo que indica la blockchain. Nunca retiene fondos ni verifica quién paga.',req:'Solicitado',open:'Abrir'},
-ru:{sub:'Бесплатно. Без регистрации. Средства идут прямо на ваш кошелёк.',create:'Создать ссылку для оплаты',name:'Название (необязательно)',wallet:'Ваш кошелёк TRON (начинается с T)',amount:'Запрашиваемая сумма в USDT (необязательно)',ref:'Номер / счёт (необязательно)',sender:'Учитывать только переводы с этого кошелька (необязательно)',go:'Создать ссылку',note:'Отслеживает подтверждённые переводы USDT (TRC20) на ваш кошелёк после создания ссылки.',share:'Поделиться',copy:'Копировать',copied:'Скопировано ✓',bad:'Введите корректный адрес TRON',WAITING:'Ожидание платежа',CONFIRMING:'Платёж обнаружен, подтверждается…',PAID:'Платёж подтверждён',PARTIAL:'Получена часть платежа',warn:'Отправляйте только USDT по сети TRON (TRC20). Другие сети и токены будут потеряны.',rcv:'Получено',due:'Осталось',over:'Переплата',from:'от',err:'Ошибка соединения, повтор…',newl:'Новая ссылка',rcpt:'Квитанция',csv:'CSV',hist:'Ваши ссылки',scan:'Сканируйте или скопируйте адрес',foot:'Страница показывает только данные блокчейна. Она не хранит средства и не проверяет плательщика.',req:'Запрошено',open:'Открыть'}};
-const TIP='TR257J4161n7vpP646VvSwM6bz3GkGtJNv';
-Object.assign(D.en,{tip:'☕ Buy me a coffee',tipsub:'Like this tool? Support it with a small tip.',thx:'Thank you! ☕',never:'No expiry',min:'min',EXPIRED:'This link has expired'});
-Object.assign(D.zh,{tip:'☕ 请我喝杯咖啡',tipsub:'喜欢这个工具吗？欢迎小额打赏支持。',thx:'谢谢您！☕',never:'永不过期',min:'分钟',EXPIRED:'此链接已过期'});
-Object.assign(D.es,{tip:'☕ Invítame un café',tipsub:'¿Te gusta esta herramienta? Apóyala con una pequeña propina.',thx:'¡Gracias! ☕',never:'Sin caducidad',min:'min',EXPIRED:'Este enlace ha caducado'});
-Object.assign(D.ru,{tip:'☕ Угостить кофе',tipsub:'Нравится сервис? Поддержите небольшой суммой.',thx:'Спасибо! ☕',never:'Без срока',min:'мин',EXPIRED:'Срок действия ссылки истёк'});
-const U='TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',$=s=>document.querySelector(s),app=$('#app');
-const rd=k=>{try{return localStorage.getItem(k)}catch{return null}},wr=(k,v)=>{try{localStorage.setItem(k,v)}catch{}};
-let lang=rd('lang'),cur=null,timer=null,timer2=null,prev=null,last=[],rates={};
-if(!D[lang])lang=D[(navigator.language||'en').slice(0,2)]?(navigator.language).slice(0,2):'en';
-if(rd('theme'))document.documentElement.dataset.t=rd('theme');
-const t=k=>D[lang][k],esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const enc=o=>btoa(encodeURIComponent(JSON.stringify(o))),dec=s=>JSON.parse(decodeURIComponent(atob(s)));
-const sym={USD:'$',CNY:'¥',EUR:'€'};
-const fiat=v=>{const c=cur&&cur.c||'USD';if(c==='USD')return ` ≈ $${v.toLocaleString(undefined,{maximumFractionDigits:2})}`;return rates[c]?` ≈ ${sym[c]}${(v*rates[c]).toLocaleString(undefined,{maximumFractionDigits:2})}`:''};
-const n2=v=>+v.toFixed(6);
-function copy(txt,b){navigator.clipboard.writeText(txt).then(()=>{const o=b.textContent;b.textContent=t('copied');setTimeout(()=>b.textContent=o,1500)})}
-function share(url,title){if(navigator.share)navigator.share({title,url}).catch(()=>{});else window.open('https://t.me/share/url?url='+encodeURIComponent(url))}
-function ping(){try{const a=new AudioContext(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();o.stop(a.currentTime+.25)}catch{}navigator.vibrate&&navigator.vibrate([150,80,150])}
-
-$('#lg').value=lang;$('#lg').onchange=e=>{lang=e.target.value;wr('lang',lang);render()};
-$('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.t==='dark'||(!r.dataset.t&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.t=d?'light':'dark';wr('theme',r.dataset.t)};
-
-function form(){
-  let h=[];try{h=JSON.parse(rd('links')||'[]')}catch{}
-  app.innerHTML=`<div class="card"><h2 style="margin:0 0 4px">${t('create')}</h2><div class="mu">${t('sub')}</div><br>
-  <input id="n" placeholder="${t('name')}"><input id="w" placeholder="${t('wallet')}" value="${esc(rd('wallet')||'')}">
-  <input id="e" type="number" step="any" min="0" placeholder="${t('amount')}"><div>${[10,50,100,500].map(v=>`<button type="button" class="btn s q" data-v="${v}">${v}</button>`).join('')}</div><input id="r" placeholder="${t('ref')}">
-  <input id="f" placeholder="${t('sender')}">
-  <select id="c" style="width:100%;padding:12px;margin:5px 0"><option>USD</option><option>CNY</option><option>EUR</option></select>
-  <select id="x" style="width:100%;padding:12px;margin:5px 0"><option value="0">${t('never')}</option><option value="30">30 ${t('min')}</option><option value="60">60 ${t('min')}</option><option value="1440">24 h</option></select>
-  <button class="btn" id="go">${t('go')}</button><div id="out"></div><p class="mu">${t('note')}</p></div>
-  ${h.length?`<div class="card"><b>${t('hist')}</b>${h.map(x=>`<div class="tx">${esc(x.n||'USDT')} <a href="${x.u}">${t('open')}</a> <span class="chip st" data-u="${x.u}">…</span></div>`).join('')}</div>`:''}
-  ${supportPanel()}
-  <p class="mu" style="text-align:center">${t('foot')}</p>`;
-  document.querySelectorAll('.q').forEach(b=>b.onclick=()=>$('#e').value=b.dataset.v);
-  wireSupport();
-  dash();
-  $('#go').onclick=()=>{
-    const w=$('#w').value.trim();if(!/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(w))return alert(t('bad'));
-    wr('wallet',w);const d={n:$('#n').value,w,e:+$('#e').value||0,r:$('#r').value,f:$('#f').value.trim(),c:$('#c').value,x:+$('#x').value?Date.now()+$('#x').value*60000:0,t:Date.now()};
-    const u=location.origin+location.pathname+'#'+enc(d);
-    h.unshift({n:d.n,u});wr('links',JSON.stringify(h.slice(0,10)));
-    $('#out').innerHTML=`<div class="tx"><a href="${u}">${u}</a></div><button class="btn s" id="cp">${t('copy')}</button><button class="btn s" id="sh">${t('share')}</button>`;
-    $('#cp').onclick=function(){copy(u,this)};$('#sh').onclick=()=>share(u,d.n);
-  };
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const STORAGE_KEY='saicrypto_platform_v1';
+const assets = [
+{asset:'USDT',name:'Tether',net:'TRON',standard:'TRC-20',tracked:'Best-effort scanner',symbol:'₮',cls:'',explorer:'https://tronscan.org/#/'},
+{asset:'USDT',name:'Tether',net:'Ethereum',standard:'ERC-20',tracked:'Configured RPC needed',symbol:'₮',cls:'',explorer:'https://etherscan.io/'},
+{asset:'USDT',name:'Tether',net:'BNB Smart Chain',standard:'BEP-20',tracked:'Configured RPC needed',symbol:'₮',cls:'',explorer:'https://bscscan.com/'},
+{asset:'USDC',name:'USD Coin',net:'Ethereum',standard:'ERC-20',tracked:'Link only',symbol:'$',cls:'blue',explorer:'https://etherscan.io/'},
+{asset:'USDC',name:'USD Coin',net:'Base',standard:'ERC-20',tracked:'Link only',symbol:'$',cls:'blue',explorer:'https://basescan.org/'},
+{asset:'USDC',name:'USD Coin',net:'Polygon',standard:'Native token',tracked:'Link only',symbol:'$',cls:'blue',explorer:'https://polygonscan.com/'},
+{asset:'ETH',name:'Ethereum',net:'Ethereum',standard:'Native',tracked:'Link only',symbol:'◆',cls:'black',explorer:'https://etherscan.io/'},
+{asset:'BNB',name:'BNB',net:'BNB Smart Chain',standard:'Native',tracked:'Link only',symbol:'◆',cls:'orange',explorer:'https://bscscan.com/'},
+{asset:'BTC',name:'Bitcoin',net:'Bitcoin',standard:'Native',tracked:'Link only',symbol:'₿',cls:'orange',explorer:'https://mempool.space/'},
+{asset:'SOL',name:'Solana',net:'Solana',standard:'SPL / native',tracked:'Link only',symbol:'◎',cls:'purple',explorer:'https://explorer.solana.com/'},
+{asset:'TRX',name:'TRON',net:'TRON',standard:'Native',tracked:'Link only',symbol:'T',cls:'red',explorer:'https://tronscan.org/'},
+{asset:'POL',name:'Polygon',net:'Polygon',standard:'Native',tracked:'Link only',symbol:'⬡',cls:'purple',explorer:'https://polygonscan.com/'},
+{asset:'TON',name:'Toncoin',net:'TON',standard:'Native',tracked:'Link only',symbol:'◆',cls:'blue',explorer:'https://tonscan.org/'},
+{asset:'XRP',name:'XRP',net:'XRP Ledger',standard:'Native',tracked:'Link only',symbol:'X',cls:'black',explorer:'https://xrpscan.com/'},
+{asset:'LTC',name:'Litecoin',net:'Litecoin',standard:'Native',tracked:'Link only',symbol:'Ł',cls:'blue',explorer:'https://blockchair.com/litecoin/'},
+{asset:'DOGE',name:'Dogecoin',net:'Dogecoin',standard:'Native',tracked:'Link only',symbol:'Ð',cls:'orange',explorer:'https://dogechain.info/'},
+{asset:'USDT',name:'Tether',net:'Arbitrum',standard:'ERC-20',tracked:'Link only',symbol:'₮',cls:'',explorer:'https://arbiscan.io/'},
+{asset:'USDT',name:'Tether',net:'Optimism',standard:'ERC-20',tracked:'Link only',symbol:'₮',cls:'',explorer:'https://optimistic.etherscan.io/'},
+{asset:'USDT',name:'Tether',net:'Avalanche C-Chain',standard:'ERC-20',tracked:'Link only',symbol:'₮',cls:'',explorer:'https://snowtrace.io/'}
+];
+const networkMap={
+USDT:['TRON (TRC20)','Ethereum (ERC20)','BNB Smart Chain (BEP20)','Polygon','Base','Arbitrum','Optimism','Avalanche C-Chain'],
+USDC:['Ethereum (ERC20)','Base','Polygon','Arbitrum','Solana'],
+ETH:['Ethereum'],BNB:['BNB Smart Chain'],BTC:['Bitcoin'],SOL:['Solana'],TRX:['TRON'],POL:['Polygon'],TON:['TON'],XRP:['XRP Ledger'],LTC:['Litecoin'],DOGE:['Dogecoin']
+};
+const chainMeta={
+'TRON (TRC20)':{explorer:'https://tronscan.org/#/transaction/',tracked:true,kind:'tron'},
+'Ethereum (ERC20)':{explorer:'https://etherscan.io/tx/',tracked:false,kind:'evm'},
+'BNB Smart Chain (BEP20)':{explorer:'https://bscscan.com/tx/',tracked:false,kind:'evm'},
+'Polygon':{explorer:'https://polygonscan.com/tx/',tracked:false,kind:'evm'},
+'Base':{explorer:'https://basescan.org/tx/',tracked:false,kind:'evm'},
+'Arbitrum':{explorer:'https://arbiscan.io/tx/',tracked:false,kind:'evm'},
+'Optimism':{explorer:'https://optimistic.etherscan.io/tx/',tracked:false,kind:'evm'},
+'Avalanche C-Chain':{explorer:'https://snowtrace.io/tx/',tracked:false,kind:'evm'},
+'Bitcoin':{explorer:'https://mempool.space/tx/',tracked:false},'Solana':{explorer:'https://explorer.solana.com/tx/',tracked:false},
+'TON':{explorer:'https://tonscan.org/tx/',tracked:false},'XRP Ledger':{explorer:'https://xrpscan.com/tx/',tracked:false},
+'Litecoin':{explorer:'https://blockchair.com/litecoin/transaction/',tracked:false},'Dogecoin':{explorer:'https://dogechain.info/tx/',tracked:false},
+'Ethereum':{explorer:'https://etherscan.io/tx/',tracked:false},'BNB Smart Chain':{explorer:'https://bscscan.com/tx/',tracked:false}
+};
+// Fixed developer-support receiving addresses. These are intentionally not user-editable in the UI.
+const DEVELOPER_WALLETS = Object.freeze([
+  {label:'USDT · TRON (TRC-20)',network:'TRON network · TRC-20 only',address:'TVY9FUg9x99fiFs3hZG1L3WF1vGALUQDGK'},
+  {label:'USDC · Arc',network:'Arc network',address:'0x95CF9a78c7D4e98B29f978D83bF4e8D5B0aF687e'},
+  {label:'USDC · Ethereum (ERC-20)',network:'Ethereum network · ERC-20 only',address:'0x95CF9a78c7D4e98B29f978D83bF4e8D5B0aF687e'},
+  {label:'Bitcoin (BTC)',network:'Bitcoin network',address:'bc1quwy5rlr7q5h7k4wx38eau9egqrrqyk4pl8e4r6'},
+  {label:'Solana (SOL)',network:'Solana network',address:'2vmwRbkd34U9z3b79eqt7bwN2wtGG599FDGKaq2JZ1mB'},
+  {label:'Ethereum (ETH)',network:'Ethereum mainnet',address:'0x95CF9a78c7D4e98B29f978D83bF4e8D5B0aF687e'}
+]);
+function renderDonationWallets(){
+  const host=$('donationWallets');
+  if(!host)return;
+  host.innerHTML=DEVELOPER_WALLETS.map((w,i)=>`<div class="donate-wallet"><strong>${esc(w.label)}</strong><span class="note">${esc(w.network)}</span><code>${esc(w.address)}</code><button class="btn small" type="button" data-copy-wallet="${i}">Copy address</button></div>`).join('');
 }
-
-function status(d){
-  cur=d;prev=null;
-  app.innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><b>${esc(d.n||'USDT')}</b>${d.r?`<span class="chip">#${esc(d.r)}</span>`:''}</div>
-  ${d.e?`<div class="big">${d.e} USDT</div><div class="mu" id="rq"></div>`:''}
-  <div class="bn WAITING" id="bn">${t('WAITING')}</div><div class="mu" id="cd" style="text-align:center"></div><div id="sm"></div></div>
-  <div class="card" id="pc"><div class="mu">${t('scan')}</div><div id="qr"></div>
-  <div id="ad" style="font-family:monospace;text-align:center">${esc(d.w)}</div>
-  <div style="text-align:center"><button class="btn s" id="cp">${t('copy')}</button></div>
-  <div class="warn">⚠ ${t('warn')}</div></div>
-  <div class="card" id="ls"></div>
-  <div class="noprint"><button class="btn s" onclick="print()">🧾 ${t('rcpt')}</button><button class="btn s" id="cv">⬇ ${t('csv')}</button><button class="btn s" id="sh">${t('share')}</button><button class="btn s" id="nw">${t('newl')}</button></div>
-  ${supportPanel()}
-  <p class="mu" style="text-align:center">${t('foot')}</p>`;
-  wireSupport();
-  if(window.QRCode)new QRCode($('#qr'),{text:d.w,width:170,height:170});
-  $('#cp').onclick=function(){copy(d.w,this)};$('#sh').onclick=()=>share(location.href,d.n);
-  $('#nw').onclick=()=>{history.pushState('','',location.pathname);cur=null;render()};
-  $('#cv').onclick=()=>{const c='txid,from,amount,time,confirmed\n'+last.map(x=>[x.id,x.from,x.amt,new Date(x.time).toISOString(),x.ok].join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));a.download='deposits.csv';a.click()};
-  fetch('https://open.er-api.com/v6/latest/USD').then(r=>r.json()).then(j=>{rates=j.rates||{};paint()}).catch(()=>{});
-  load();timer=setInterval(load,10000);tick();timer2=setInterval(tick,1000);
+let state={invoices:[],transactions:[],settings:{dark:false,warnings:true,history:true},current:null};
+function load(){try{const d=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');state={...state,...d,settings:{...state.settings,...(d.settings||{})}}}catch(e){}}
+function persist(){if(state.settings.history){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){toast('Browser storage is full. Export a backup and clear old records.')}}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){const t=$('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+function fmtDate(v){if(!v)return '—';return new Date(v).toLocaleString()}
+function statusBadge(s){let cl=s==='Confirmed'?'':s==='Partial'?'partial':s==='Expired'?'expired':s==='Failed'?'failed':'pending';return `<span class="badge ${cl}">${esc(s||'Request created')}</span>`}
+function currentNetwork(){return $('network').value}
+function populateNetworks(){const a=$('asset').value, old=$('network').value, list=networkMap[a]||[];$('network').innerHTML=list.map(n=>`<option>${esc(n)}</option>`).join('');if(list.includes(old))$('network').value=old}
+function validAddress(asset,network,address){
+ address=address.trim(); if(!address)return 'Enter a receiving wallet address.';
+ if(/\s/.test(address))return 'Wallet address cannot contain spaces.';
+ if(network.startsWith('TRON')){if(!/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(address))return 'This does not look like a valid TRON address (usually starts with T). Check it carefully.';}
+ else if(['Ethereum (ERC20)','BNB Smart Chain (BEP20)','Polygon','Base','Arbitrum','Optimism','Avalanche C-Chain','Ethereum','BNB Smart Chain'].includes(network)){if(!/^0x[a-fA-F0-9]{40}$/.test(address))return 'This does not look like a valid EVM address (0x followed by 40 hex characters).';}
+ else if(network==='Bitcoin'&&!/^(bc1|[13])[a-zA-HJ-NP-Z0-9]{20,90}$/.test(address))return 'Bitcoin address format looks unusual. Verify it in your wallet.';
+ else if(network==='Solana'&&!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(address))return 'Solana address format looks unusual. Verify it in your wallet.';
+ else if(network==='XRP Ledger'&&!/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/.test(address))return 'XRP address format looks unusual. Verify it in your wallet.';
+ return '';
 }
-let view={};
-function tick(){const e=$('#cd');if(!e||!cur||!cur.x)return;const s=Math.max(0,Math.floor((cur.x-Date.now())/1000));e.textContent=view.st==='PAID'||s<=0?'':'⏱ '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
-async function dash(){for(const el of document.querySelectorAll('.st')){try{const d=dec(el.dataset.u.split('#')[1]);const r=await fetch(`https://api.trongrid.io/v1/accounts/${d.w}/transactions/trc20?only_to=true&only_confirmed=true&limit=200&min_timestamp=${d.t}&contract_address=${U}`).then(r=>r.json());
-const ok=(r.data||[]).filter(x=>x.token_info&&x.token_info.address===U&&x.to===d.w&&(!d.f||x.from===d.f)&&(!d.x||x.block_timestamp<=d.x)).reduce((s,x)=>s+Number(x.value)/10**(x.token_info.decimals??6),0);
-const ex=d.x&&Date.now()>d.x,st=d.e?(ok>=d.e*.999?'PAID':ok>0?'PARTIAL':ex?'EXPIRED':'WAITING'):(ok>0?'PAID':ex?'EXPIRED':'WAITING');
-el.textContent=t(st)+(ok?' · '+n2(ok):'')}catch{el.textContent='?'}}}
-function paint(){
-  if(!cur||!view.st)return;const d=cur,{st,ok,pend}=view,tot=ok+pend;
-  $('#bn').className='bn '+st;$('#bn').innerHTML=(st==='PAID'?'<span class="k">✓</span> ':'')+(d.k&&st==='PAID'?t('thx'):t(st));$('#pc').style.display=st==='EXPIRED'?'none':'';document.title=t(st)+' · SAICRYPTO PLATFORM';
-  if(d.e&&$('#rq'))$('#rq').textContent=t('req')+fiat(d.e);
-  $('#sm').innerHTML=`<div>${t('rcv')}: <b>${n2(ok)} USDT</b>${fiat(ok)}</div>`+(d.e&&tot<d.e?`<div>${t('due')}: <b>${n2(d.e-tot)} USDT</b></div>`:'')+(d.e&&ok>d.e*1.001?`<div>${t('over')}: <b>${n2(ok-d.e)} USDT</b></div>`:'');
-  $('#ls').innerHTML=last.length?last.map(x=>`<div class="tx">${x.ok?'✔':'⏳'} <b>${x.amt} USDT</b> ${t('from')} ${esc(x.from.slice(0,8))}… · ${new Date(x.time).toLocaleString()} · <a href="https://tronscan.org/#/transaction/${x.id}" target="_blank" rel="noopener">tx</a></div>`).join(''):`<span class="mu">—</span>`;
+function makePayload(){const asset=$('asset').value,network=currentNetwork(),wallet=$('wallet').value.trim(),amount=$('amount').value.trim(),fiat=$('fiat').value,reference=$('reference').value.trim(),payer=$('payer').value.trim(),merchant=$('merchant').value.trim(),description=$('description').value.trim(),expiryHours=Number($('expiry').value);
+ if(amount&&(!/^\d+(\.\d{1,18})?$/.test(amount)||Number(amount)<=0))throw Error('Amount must be a positive number with up to 18 decimal places.');
+ const err=validAddress(asset,network,wallet);if(err)throw Error(err);
+ const now=Date.now(),exp=expiryHours?now+expiryHours*3600000:null;
+ const id='SAI-'+now.toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+ const payload={id,asset,network,wallet,amount,fiat,reference,payer,merchant,description,createdAt:now,expiresAt:exp,status:'Request created',txHash:''};
+ const url=new URL(location.href);url.hash='pay='+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(payload)))));return {payload,url:url.href};
 }
-async function load(){
-  const d=cur;if(!d)return;
-  try{
-    const b=`https://api.trongrid.io/v1/accounts/${d.w}/transactions/trc20?only_to=true&limit=200&min_timestamp=${d.t}&contract_address=${U}`;
-    const [a,c]=await Promise.all([fetch(b).then(r=>r.json()),fetch(b+'&only_confirmed=true').then(r=>r.json())]);
-    const okset=new Set((c.data||[]).map(x=>x.transaction_id));
-    last=(a.data||[]).filter(x=>x.token_info&&x.token_info.address===U&&x.to===d.w&&(!d.f||x.from===d.f)&&(!d.x||x.block_timestamp<=d.x))
-      .map(x=>({id:x.transaction_id,from:x.from,amt:Number(x.value)/10**(x.token_info.decimals??6),time:x.block_timestamp,ok:okset.has(x.transaction_id)}));
-    const ok=last.filter(x=>x.ok).reduce((s,x)=>s+x.amt,0),pend=last.filter(x=>!x.ok).reduce((s,x)=>s+x.amt,0),tot=ok+pend;
-    let st='WAITING';
-    if(d.e){st=ok>=d.e*0.999?'PAID':pend>0&&tot>=d.e*0.999?'CONFIRMING':tot>0?'PARTIAL':'WAITING'}
-    else st=ok>0?'PAID':pend>0?'CONFIRMING':'WAITING';
-    if(st!=='PAID'&&d.x&&Date.now()>d.x)st='EXPIRED';
-    if(prev&&prev!=='PAID'&&st==='PAID')ping();prev=st;view={st,ok,pend};paint();
-  }catch(e){const s=$('#sm');if(s)s.innerHTML=`<span class="mu">${t('err')}</span>`}
-}
-// Fixed SAICRYPTO support destinations. These are embedded in the source and are not editable in the UI.
-const SUPPORT_WALLETS=Object.freeze({
-  'USDT · TRON (TRC20)':{asset:'USDT',network:'TRON (TRC20)',address:'TVY9FUg9x99fiFs3hZG1L3WF1vGALUQDGK',explorer:'https://tronscan.org/#/address/TVY9FUg9x99fiFs3hZG1L3WF1vGALUQDGK',tracked:true},
-  'USDC · Arc':{asset:'USDC',network:'Arc',address:'0x95CF9a78c7D4e98B29f978D83bF4e8D5B0aF687e',explorer:'',tracked:false},
-  'USDC · Ethereum':{asset:'USDC',network:'Ethereum (ERC20)',address:'0x95CF9a78c7D4e98B29f978D83bF4e8D5B0aF687e',explorer:'https://etherscan.io/address/0x95CF9a78c7D4e98B29f978D83bF4e8D5B0aF687e',tracked:false},
-  'ETH · Ethereum':{asset:'ETH',network:'Ethereum',address:'0x95CF9a78c7D4e98B29f978D83bF4e8D5B0aF687e',explorer:'https://etherscan.io/address/0x95CF9a78c7D4e98B29f978D83bF4e8D5B0aF687e',tracked:false},
-  'Bitcoin':{asset:'BTC',network:'Bitcoin',address:'bc1quwy5rlr7q5h7k4wx38eau9egqrrqyk4pl8e4r6',explorer:'https://mempool.space/address/bc1quwy5rlr7q5h7k4wx38eau9egqrrqyk4pl8e4r6',tracked:false},
-  'Solana':{asset:'SOL',network:'Solana',address:'2vmwRbkd34U9z3b79eqt7bwN2wtGG599FDGKaq2JZ1mB',explorer:'https://solscan.io/account/2vmwRbkd34U9z3b79eqt7bwN2wtGG599FDGKaq2JZ1mB',tracked:false}
-});
-function supportPanel(){return `<div class="card support-card"><h3 class="support-title">☕ Support SAICRYPTO</h3><div class="mu">Buy me a coffee or donate to the developer. Support addresses are fixed in the code; select the exact asset and network before sending.</div><div class="support-grid"><button class="support-btn primary-support" data-coffee="1"><strong>☕ Buy me a coffee</strong><small>1 USDT · TRON TRC20</small></button><button class="support-btn primary-support" data-coffee="5"><strong>☕ Buy me a coffee</strong><small>5 USDT · TRON TRC20</small></button><button class="support-btn" data-coffee="10"><strong>💙 Donate to developer</strong><small>10 USDT · TRON TRC20</small></button><button class="support-btn" data-support="all"><strong>◎ Other crypto donations</strong><small>USDC · BTC · ETH · SOL</small></button></div><div class="support-detail" id="supportDetail"><strong id="supportName">Choose a network</strong><div id="supportQr" style="display:flex;justify-content:center;margin:10px 0"></div><div id="supportAddress" class="support-address"></div><div id="supportAmount" class="support-amount"></div><div class="support-note" id="supportWarning"></div><button type="button" class="btn s" id="supportCopy">Copy fixed address</button> <a id="supportExplorer" target="_blank" rel="noopener noreferrer" style="display:none">View address ↗</a><div id="supportOptions" class="support-grid"></div></div></div>`}
-let supportSuggestedAmount=null;
-function wireSupport(){
-  // Donation destinations are constants in the source, never editable through the interface.
-  document.querySelectorAll('[data-coffee]').forEach(b=>b.onclick=()=>{supportSuggestedAmount=Number(b.dataset.coffee);showSupport('USDT · TRON (TRC20)',false)});
-  document.querySelectorAll('[data-support="all"]').forEach(b=>b.onclick=()=>{supportSuggestedAmount=null;showSupport('USDC · Ethereum',true)});
-}
-function showSupport(key,showOptions){const w=SUPPORT_WALLETS[key];if(!w)return;const box=$('#supportDetail');if(!box)return;box.classList.add('show');$('#supportName').textContent=w.asset+' on '+w.network;$('#supportAddress').textContent=w.address;$('#supportAmount').textContent=(key==='USDT · TRON (TRC20)'&&supportSuggestedAmount)?`Suggested donation: ${supportSuggestedAmount} USDT · TRC20 (you must enter this amount in your wallet)`:'Send any amount you choose; confirm the asset and network in your wallet.';$('#supportWarning').textContent=w.tracked?'USDT TRC20 deposits can be checked by the existing transaction monitor.':'Receiving address only: this version does not automatically monitor or confirm deposits on this network. Verify network compatibility before sending. In particular, confirm that your wallet supports the selected Arc network before using the Arc address.';$('#supportExplorer').style.display=w.explorer?'inline':'none';$('#supportExplorer').href=w.explorer||'#';$('#supportQr').innerHTML='';if(window.QRCode)new QRCode($('#supportQr'),{text:w.address,width:145,height:145});$('#supportCopy').onclick=()=>copy(w.address,$('#supportCopy'));const opts=$('#supportOptions');opts.innerHTML=showOptions?Object.keys(SUPPORT_WALLETS).map(k=>`<button class="support-btn" data-wallet-key="${esc(k)}"><strong>${esc(SUPPORT_WALLETS[k].asset)}</strong><small>${esc(SUPPORT_WALLETS[k].network)}</small></button>`).join(''):'';opts.querySelectorAll('[data-wallet-key]').forEach(b=>b.onclick=()=>{supportSuggestedAmount=null;showSupport(b.dataset.walletKey,true)});box.scrollIntoView({behavior:'smooth',block:'nearest'})}
-
-function render(){
-  clearInterval(timer);clearInterval(timer2);
-  if(!cur){const h=location.hash.slice(1);if(h==='me')cur={n:t('tip'),w:TIP,e:0,r:'',f:'',c:'USD',x:0,t:Date.UTC(2026,9,26)};else if(h){try{cur=dec(h)}catch{}}}
-  cur?status(cur):form();
-}
-onhashchange=()=>{cur=null;render()};
-render();
+function decodePayload(){try{const raw=new URLSearchParams(location.hash.slice(1)).get('pay');if(!raw)return null;return JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(raw)))))}catch(e){return null}}
+function renderQR(text){const box=$('qrbox');box.innerHTML='';if(window.QRCode){new QRCode(box,{text,width:200,height:200,colorDark:'#07152f',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}else{box.innerHTML='<p class="note">QR library unavailable. Copy the payment link instead.</p>'}}
+function createRequest(e){e.preventDefault();try{const {payload,url}=makePayload();state.current={...payload,url};$('resultUrl').textContent=url;$('resultBox').classList.add('show');renderQR(url);toast('Payment request generated. Save it to keep a local record.');}catch(err){toast(err.message||'Could not create payment request.');}}
+function saveInvoice(){if(!state.current){toast('Create a payment request first.');return}if(state.invoices.some(i=>i.id===state.current.id)){toast('This invoice is already saved.');return}state.invoices.unshift({...state.current});persist();renderAll();toast('Invoice saved on this device.')}
+async function copyText(s){try{await navigator.clipboard.writeText(s);toast('Copied to clipboard.')}catch(e){const ta=document.createElement('textarea');ta.value=s;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Copied.')}} 
+function csvEscape(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
+function downloadCSV(filename,rows){if(!rows.length){toast('Nothing to export yet.');return}const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))];const csv=[keys.map(csvEscape).join(','),...rows.map(r=>keys.map(k=>csvEscape(r[k])).join(','))].join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}));a.download=filename;a.click();URL.revokeObjectURL(a.href)}
+function downloadBackup(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}));a.download='saicrypto-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href);toast('Backup downloaded. Store it somewhere safe.')}
+function renderAll(){renderStats();renderRecent();renderInvoices();renderTransactions();renderAssets();renderMiniAssets();$('darkToggle').checked=!!state.settings.dark;$('warningsToggle').checked=state.settings.warnings!==false;$('historyToggle').checked=state.settings.history!==false}
+function renderStats(){const confirmed=state.transactions.filter(t=>t.status==='Confirmed');const total=confirmed.reduce((s,t)=>s+Number(t.amount||0),0);$('statReceived').textContent='$'+total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});$('statInvoices').textContent=state.invoices.length;$('statConfirmed').textContent=confirmed.length}
+function renderRecent(){const rows=state.invoices.slice(0,5);$('recentRows').innerHTML=rows.map(i=>`<tr><td>${esc(new Date(i.createdAt).toLocaleDateString())}</td><td>${esc(i.asset)}<br><span class="muted">${esc(i.network)}</span></td><td>${i.amount?esc(i.amount)+' '+esc(i.asset):'Any amount'}</td><td>${statusBadge(i.status)}</td><td><button class="btn small" data-view="${esc(i.id)}">View</button></td></tr>`).join('');$('recentEmpty').style.display=rows.length?'none':'block'}
+function renderInvoices(){const rows=state.invoices;$('invoiceRows').innerHTML=rows.map(i=>`<tr><td><strong>${esc(i.reference||i.id)}</strong><br><small class="muted">${esc(i.id)}</small></td><td>${esc(i.merchant||'—')}</td><td>${esc(i.asset)}<br><small class="muted">${esc(i.network)}</small></td><td>${i.amount?esc(i.amount)+' '+esc(i.asset):'Any amount'}<br><small class="muted">${esc(i.fiat||'USD')}</small></td><td>${esc(fmtDate(i.createdAt))}</td><td>${esc(fmtDate(i.expiresAt))}</td><td><button class="btn small" data-view="${esc(i.id)}">Details</button> <button class="btn small danger" data-delete="${esc(i.id)}">Delete</button></td></tr>`).join('');$('invoiceEmpty').style.display=rows.length?'none':'block'}
+function renderTransactions(){const q=($('txSearch')?.value||'').toLowerCase();const rows=state.transactions.filter(t=>JSON.stringify(t).toLowerCase().includes(q));$('txRows').innerHTML=rows.map(t=>`<tr><td>${esc(fmtDate(t.createdAt))}</td><td>${esc(t.reference||'—')}</td><td>${esc(t.asset)}<br><small class="muted">${esc(t.network)}</small></td><td>${esc(t.amount||'—')}</td><td>${statusBadge(t.status)}</td><td>${t.txHash?`<a target="_blank" rel="noopener noreferrer" href="${esc((chainMeta[t.network]?.explorer||'')+encodeURIComponent(t.txHash))}">Explorer ↗</a>`:'—'}</td></tr>`).join('');$('txEmpty').style.display=rows.length?'none':'block'}
+function renderAssets(){const q=($('assetSearch')?.value||'').toLowerCase();const rows=assets.filter(a=>(a.asset+' '+a.name+' '+a.net+' '+a.standard+' '+a.tracked).toLowerCase().includes(q));$('assetRows').innerHTML=rows.map(a=>`<tr><td><strong>${esc(a.asset)}</strong><br><small class="muted">${esc(a.name)}</small></td><td>${esc(a.net)}</td><td>${esc(a.standard)}</td><td><span class="badge">Available</span></td><td>${a.tracked.includes('scanner')?'<span class="badge">Best-effort</span>':a.tracked.includes('Configured')?'<span class="badge pending">Not active</span>':'<span class="badge partial">Link only</span>'}</td><td><a href="${esc(a.explorer)}" target="_blank" rel="noopener noreferrer">Explorer ↗</a></td></tr>`).join('')}
+function renderMiniAssets(){const top=[['USDT','Tether','TRON · ETH · BNB','₮',''],['USDC','USD Coin','ETH · Base · Polygon','$','blue'],['BTC','Bitcoin','Bitcoin network','₿','orange'],['ETH','Ethereum','Ethereum network','◆','black'],['SOL','Solana','Solana network','◎','purple']];$('miniAssets').innerHTML=top.map(a=>`<div class="assetrow"><div class="coin ${a[4]}">${a[3]}</div><div class="assetmeta"><strong>${a[0]} <span class="muted" style="font-weight:400">${a[1]}</span></strong><small>${a[2]}</small></div><span class="chain">${a[0]==='USDT'?'MULTI':'LINK'}</span></div>`).join('')}
+function showInvoice(id){const i=state.invoices.find(x=>x.id===id);if(!i)return;$('modalTitle').textContent='Payment request details';$('modalBody').innerHTML=`<p><strong>Invoice:</strong> ${esc(i.reference||i.id)}</p><p><strong>Asset / network:</strong> ${esc(i.asset)} / ${esc(i.network)}</p><p><strong>Wallet:</strong><br><code style="overflow-wrap:anywhere">${esc(i.wallet)}</code></p><p><strong>Amount:</strong> ${i.amount?esc(i.amount)+' '+esc(i.asset):'Any amount'} · <strong>Status:</strong> ${esc(i.status)}</p><p><strong>Created:</strong> ${esc(fmtDate(i.createdAt))}</p><p><strong>Expires:</strong> ${esc(fmtDate(i.expiresAt))}</p><p><strong>Payment link:</strong></p><div class="result-url">${esc(i.url)}</div><div class="form-actions"><button class="btn primary" id="modalCopy">Copy link</button><button class="btn" id="modalPrint">Print / PDF</button></div>`;$('modalBack').classList.add('show');$('modalCopy').onclick=()=>copyText(i.url);$('modalPrint').onclick=()=>window.print()}
+function navigate(page){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));const titles={dashboard:'Dashboard',create:'Create Payment Link',invoices:'My Invoices',transactions:'Transactions',assets:'Asset Directory',reports:'Reports & Export',settings:'Settings'};$('pageTitle').textContent=titles[page]||'Dashboard';$('sidebar').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'})}
+function printCurrent(){window.print()}
+async function scanSupported(){const candidates=state.invoices.filter(i=>i.network.startsWith('TRON')&&i.asset==='USDT'&&i.createdAt);if(!candidates.length){toast('No TRON USDT invoices to check.');return}toast('Checking recent TRON USDT activity…');let found=0,failed=0;for(const inv of candidates.slice(0,10)){try{const endpoint='https://api.trongrid.io/v1/accounts/'+encodeURIComponent(inv.wallet)+'/transactions/trc20?only_to=true&only_confirmed=true&limit=200&min_timestamp='+encodeURIComponent(inv.createdAt)+'&contract_address=TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj';const resp=await fetch(endpoint,{headers:{'accept':'application/json'}});if(!resp.ok)throw new Error('API response '+resp.status);const data=await resp.json();const txs=(data.data||[]).filter(tx=>Number(tx.block_timestamp)>=Number(inv.createdAt)&&tx.to===inv.wallet&&String(tx.token_info?.address||'').toLowerCase()==='TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj'.toLowerCase()&&(!inv.payer||String(tx.from||'').toLowerCase()===String(inv.payer).toLowerCase()));for(const tx of txs){const hash=tx.transaction_id;if(!hash||state.transactions.some(t=>t.txHash===hash))continue;const amount=Number(tx.value)/Math.pow(10,Number(tx.token_info?.decimals??6));if(!Number.isFinite(amount)||amount<=0)continue;const status=inv.amount&&amount+1e-8<Number(inv.amount)?'Partial':'Confirmed';state.transactions.unshift({invoiceId:inv.id,createdAt:tx.block_timestamp||Date.now(),reference:inv.reference||inv.id,asset:'USDT',network:inv.network,amount:amount.toFixed(6),status,txHash:hash,from:tx.from,to:tx.to});inv.status=status;inv.txHash=hash;found++;}}catch(e){failed++;console.warn('TRON scanner:',e)}}persist();renderAll();toast(found?`Found ${found} new transaction record(s). Verify each on the blockchain before relying on it.${failed?' Some checks failed due to API/network limits.':''}`:failed?'The public blockchain API was unavailable or rate-limited. Try again later.':'No new matching transactions found.')}
+function initLanguage(){const lang=$('language').value;if(lang==='en')return;const map={zh:{'Dashboard':'仪表板','Create Payment Link':'创建付款链接','My Invoices':'我的发票','Transactions':'交易记录','Asset Directory':'资产目录','Reports & Export':'报告与导出','Settings':'设置'},es:{'Dashboard':'Panel','Create Payment Link':'Crear enlace de pago','My Invoices':'Mis facturas','Transactions':'Transacciones','Asset Directory':'Directorio de activos','Reports & Export':'Informes y exportación','Settings':'Configuración'},ru:{'Dashboard':'Панель','Create Payment Link':'Создать ссылку оплаты','My Invoices':'Мои счета','Transactions':'Транзакции','Asset Directory':'Каталог активов','Reports & Export':'Отчёты и экспорт','Settings':'Настройки'}}[lang];if(map){document.querySelectorAll('#nav button').forEach(b=>{const label=b.textContent.trim().replace(/^[⌂↗▤⇄◈▥⚙]\s*/,'');if(map[label])b.lastChild.textContent=map[label]});}}
+$('asset').addEventListener('change',populateNetworks);$('paymentForm').addEventListener('submit',createRequest);$('paymentForm').addEventListener('reset',()=>{setTimeout(()=>{$('resultBox').classList.remove('show');$('qrbox').innerHTML='<div class="muted">Create a link to generate a QR code.</div>';state.current=null;populateNetworks()},0)});
+$('copyLink').onclick=()=>state.current&&copyText(state.current.url);$('saveInvoice').onclick=saveInvoice;$('downloadReceipt').onclick=printCurrent;$('downloadQR').onclick=()=>{const c=$('qrbox').querySelector('canvas');const img=$('qrbox').querySelector('img');const src=c?c.toDataURL('image/png'):img?.src;if(!src){toast('Create a payment request first.');return}const a=document.createElement('a');a.href=src;a.download='saicrypto-payment-qr.png';a.click()};
+$('pasteBtn').onclick=async()=>{try{$('wallet').value=await navigator.clipboard.readText()}catch(e){toast('Clipboard permission unavailable; paste into the field manually.')}};
+$('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)navigate(b.dataset.page)});document.addEventListener('click',e=>{const support=e.target.closest('[data-support-scroll]');if(support){$('developer-support')?.scrollIntoView({behavior:'smooth',block:'start'});return}const copyWallet=e.target.closest('[data-copy-wallet]');if(copyWallet){const wallet=DEVELOPER_WALLETS[Number(copyWallet.dataset.copyWallet)];if(wallet)copyText(wallet.address);return}const go=e.target.closest('[data-goto]');if(go)navigate(go.dataset.goto);const view=e.target.closest('[data-view]');if(view)showInvoice(view.dataset.view);const del=e.target.closest('[data-delete]');if(del){state.invoices=state.invoices.filter(i=>i.id!==del.dataset.delete);persist();renderAll();toast('Invoice removed from local history.')}});
+$('modalClose').onclick=()=>$('modalBack').classList.remove('show');$('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))$('modalBack').classList.remove('show')});
+$('exportInvoices').onclick=$('reportInvoices').onclick=()=>downloadCSV('saicrypto-invoices.csv',state.invoices);$('exportTx').onclick=$('reportTransactions').onclick=()=>downloadCSV('saicrypto-transactions.csv',state.transactions);$('backupBtn').onclick=$('settingsBackup').onclick=downloadBackup;$('restoreBtn').onclick=()=>$('restoreFile').click();
+$('restoreFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!Array.isArray(d.invoices)||!Array.isArray(d.transactions))throw Error('Invalid backup file');state={...state,...d,settings:{...state.settings,...d.settings}};persist();renderAll();toast('Backup restored.')}catch(err){toast('Could not restore: invalid backup file.')}e.target.value=''};
+$('txSearch').addEventListener('input',renderTransactions);$('assetSearch').addEventListener('input',renderAssets);$('scanBtn').onclick=scanSupported;$('printReport').onclick=printCurrent;
+$('darkToggle').onchange=e=>{state.settings.dark=e.target.checked;applyTheme();persist()};$('themeBtn').onclick=()=>{state.settings.dark=!state.settings.dark;applyTheme();persist()};$('warningsToggle').onchange=e=>{state.settings.warnings=e.target.checked;persist();document.querySelectorAll('.warning').forEach(n=>n.style.display=e.target.checked?'':'none')};$('historyToggle').onchange=e=>{state.settings.history=e.target.checked;if(!state.settings.history)localStorage.removeItem(STORAGE_KEY);else persist();toast(state.settings.history?'Local history enabled.':'Local history disabled; existing saved browser data cleared.')};
+$('clearData').onclick=()=>{if(confirm('Delete all SAICRYPTO invoices, transaction records and settings saved in this browser? Export a backup first if needed.')){localStorage.removeItem(STORAGE_KEY);state={invoices:[],transactions:[],settings:{dark:false,warnings:true,history:true},current:null};renderAll();applyTheme();toast('Local data cleared.')}};
+$('language').onchange=()=>{initLanguage();toast('Language selection applied where translations are available. Some detailed content remains in English in this edition.')};$('menuBtn').onclick=()=>$('sidebar').classList.toggle('open');
+function applyTheme(){document.body.style.background=state.settings.dark?'#07152f':'var(--bg)';document.body.style.color=state.settings.dark?'#e7efff':'var(--ink)';document.querySelectorAll('.panel,.stat,.topbar,.field input,.field select,.field textarea,.result-url,.qrbox,.modal').forEach(el=>{el.style.background=state.settings.dark?'#0d2041':'';el.style.color=state.settings.dark?'#e7efff':'';el.style.borderColor=state.settings.dark?'#233d66':''});document.querySelectorAll('th').forEach(el=>el.style.background=state.settings.dark?'#10264a':'');}
+load();populateNetworks();renderAll();renderDonationWallets();applyTheme();initLanguage();
+const pay=decodePayload();if(pay){$('asset').value=pay.asset||'USDT';populateNetworks();$('network').value=pay.network||$('network').value;$('wallet').value=pay.wallet||'';$('amount').value=pay.amount||'';$('fiat').value=pay.fiat||'USD';$('reference').value=pay.reference||'';$('payer').value=pay.payer||'';$('merchant').value=pay.merchant||'';$('description').value=pay.description||'';state.current={...pay,url:location.href};$('resultUrl').textContent=location.href;$('resultBox').classList.add('show');renderQR(location.href);navigate('dashboard');toast('Payment request opened. Verify wallet and network before sending.')}
+})();
 </script>
 </body>
 </html>
