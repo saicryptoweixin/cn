@@ -3,61 +3,86 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Wallet Deposit Tracker</title>
+<title>Wallet Deposit Tracker / 钱包到账追踪器</title>
 <style>
 body{font:16px system-ui,sans-serif;max-width:560px;margin:auto;padding:16px;background:#111;color:#eee}
 input,button{width:100%;padding:10px;margin:4px 0;font-size:16px;box-sizing:border-box;border-radius:6px;border:1px solid #333;background:#1c1c1c;color:#eee}
 button{background:#2563eb;border:0;cursor:pointer}
+.lang{text-align:right}.lang button{width:auto;display:inline-block;padding:6px 12px;font-size:14px;background:#333}.lang button.on{background:#2563eb}
 .c{background:#1c1c1c;padding:12px;border-radius:8px;margin:10px 0;word-break:break-all}
 .RECEIVED{color:#4ade80}.WAITING{color:#94a3b8}
 a{color:#7dd3fc}small{color:#94a3b8}
 </style>
 </head>
 <body>
+<div class="lang" id="lang"></div>
 <div id="app"></div>
 <script>
 const USDT='TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
+const L={
+en:{create:'Create deposit tracker',name:'Name (optional)',wallet:'Your TRON wallet (starts with T)',sender:'Only count deposits from this sender wallet (optional)',go:'Create link',
+note:'Tracks confirmed USDT (TRC20) deposits arriving in your wallet after the link is created. Nothing else.',share:'Share this link:',copy:'Copy link',copied:'Copied',bad:'Enter a valid TRON wallet',
+title:'Deposit status',loading:'Loading…',refresh:'Refreshes every 20s.',newlink:'Create new link',w:'Wallet',net:'Network: TRON (TRC20) USDT',st:'Status',
+WAITING:'WAITING',RECEIVED:'RECEIVED',total:'Total received in wallet',from:'from',err:'Could not reach the blockchain API, retrying…',def:'Deposits'},
+zh:{create:'创建到账追踪链接',name:'名称（可选）',wallet:'您的波场(TRON)钱包地址（以T开头）',sender:'仅统计来自此付款钱包的转账（可选）',go:'生成链接',
+note:'仅追踪创建链接之后、转入您钱包的已确认 USDT（TRC20）转账，不追踪其他任何内容。',share:'请分享此链接：',copy:'复制链接',copied:'已复制',bad:'请输入有效的波场钱包地址',
+title:'到账状态',loading:'加载中…',refresh:'每20秒自动刷新。',newlink:'创建新链接',w:'钱包',net:'网络：波场 (TRC20) USDT',st:'状态',
+WAITING:'等待中',RECEIVED:'已到账',total:'钱包累计收到',from:'来自',err:'无法连接区块链接口，正在重试…',def:'到账记录'}};
+let lang='en',timer=null,cur=null;
+try{lang=localStorage.getItem('lang')||((navigator.language||'').toLowerCase().startsWith('zh')?'zh':'en');}catch{}
+const t=k=>L[lang][k];
 const app=document.getElementById('app');
 const enc=o=>btoa(encodeURIComponent(JSON.stringify(o)));
 const dec=s=>JSON.parse(decodeURIComponent(atob(s)));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+function setLang(l){lang=l;try{localStorage.setItem('lang',l);}catch{}render();}
+function langBar(){document.getElementById('lang').innerHTML=
+  `<button class="${lang==='en'?'on':''}" onclick="setLang('en')">EN</button> <button class="${lang==='zh'?'on':''}" onclick="setLang('zh')">中文</button>`;
+  document.documentElement.lang=lang==='zh'?'zh-CN':'en';}
+
 function form(){
-  app.innerHTML=`<h2>Create deposit tracker</h2>
-  <input id="n" placeholder="Name (optional)">
-  <input id="w" placeholder="Your TRON wallet (starts with T)">
-  <input id="f" placeholder="Only count deposits from this sender wallet (optional)">
-  <button id="go">Create link</button><div id="out"></div>
-  <small>Tracks confirmed USDT (TRC20) deposits arriving in your wallet after the link is created. Nothing else.</small>`;
+  app.innerHTML=`<h2>${t('create')}</h2>
+  <input id="n" placeholder="${t('name')}">
+  <input id="w" placeholder="${t('wallet')}">
+  <input id="f" placeholder="${t('sender')}">
+  <button id="go">${t('go')}</button><div id="out"></div><small>${t('note')}</small>`;
   document.getElementById('go').onclick=()=>{
     const w=document.getElementById('w').value.trim();
-    if(!/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(w))return alert('Enter a valid TRON wallet');
-    const d={n:document.getElementById('n').value||'Deposits',w,f:document.getElementById('f').value.trim(),t:Date.now()};
+    if(!/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(w))return alert(t('bad'));
+    const d={n:document.getElementById('n').value||'',w,f:document.getElementById('f').value.trim(),t:Date.now()};
     const url=location.origin+location.pathname+'#'+enc(d);
-    document.getElementById('out').innerHTML=`<div class="c">Share this link:<br><a href="${url}">${url}</a></div>
-    <button onclick="navigator.clipboard.writeText('${url}');this.textContent='Copied'">Copy link</button>`;
+    document.getElementById('out').innerHTML=`<div class="c">${t('share')}<br><a href="${url}">${url}</a></div>
+    <button id="cp">${t('copy')}</button>`;
+    document.getElementById('cp').onclick=function(){navigator.clipboard.writeText(url);this.textContent=t('copied');};
   };
 }
 
 function status(d){
-  app.innerHTML='<h2>Deposit status</h2><div id="o" class="c">Loading…</div><small>Refreshes every 20s. <a href="#" id="new">Create new link</a></small>';
-  document.getElementById('new').onclick=e=>{e.preventDefault();history.pushState('','',location.pathname);form();};
+  app.innerHTML=`<h2>${t('title')}</h2><div id="o" class="c">${t('loading')}</div><small>${t('refresh')} <a href="#" id="new">${t('newlink')}</a></small>`;
+  document.getElementById('new').onclick=e=>{e.preventDefault();history.pushState('','',location.pathname);cur=null;render();};
   const o=document.getElementById('o');
   async function load(){
     try{
       const r=await fetch(`https://api.trongrid.io/v1/accounts/${d.w}/transactions/trc20?only_to=true&only_confirmed=true&limit=200&min_timestamp=${d.t}&contract_address=${USDT}`);
       const j=await r.json();
-      const txs=(j.data||[]).filter(t=>t.token_info&&t.token_info.address===USDT&&t.to===d.w&&(!d.f||t.from===d.f))
-        .map(t=>({id:t.transaction_id,from:t.from,amt:Number(t.value)/10**(t.token_info.decimals??6),time:t.block_timestamp}));
-      const got=txs.reduce((s,t)=>s+t.amt,0), st=txs.length?'RECEIVED':'WAITING';
-      o.innerHTML=`<b>${esc(d.n)}</b><br>Wallet: <code>${esc(d.w)}</code><br>Network: TRON (TRC20) USDT<br>
-      Status: <b class="${st}">${st}</b><br>Total received in wallet: <b>${got}</b> USDT
-      ${txs.map(t=>`<br>✔ ${t.amt} USDT from ${esc(t.from.slice(0,8))}… · ${new Date(t.time).toLocaleString()} · <a href="https://tronscan.org/#/transaction/${t.id}" target="_blank">tx</a>`).join('')}`;
-    }catch(err){o.textContent='Could not reach the blockchain API, retrying…';}
+      const txs=(j.data||[]).filter(x=>x.token_info&&x.token_info.address===USDT&&x.to===d.w&&(!d.f||x.from===d.f))
+        .map(x=>({id:x.transaction_id,from:x.from,amt:Number(x.value)/10**(x.token_info.decimals??6),time:x.block_timestamp}));
+      const got=txs.reduce((s,x)=>s+x.amt,0),st=txs.length?'RECEIVED':'WAITING';
+      o.innerHTML=`<b>${esc(d.n||t('def'))}</b><br>${t('w')}: <code>${esc(d.w)}</code><br>${t('net')}<br>
+      ${t('st')}: <b class="${st}">${t(st)}</b><br>${t('total')}: <b>${got}</b> USDT
+      ${txs.map(x=>`<br>✔ ${x.amt} USDT ${t('from')} ${esc(x.from.slice(0,8))}… · ${new Date(x.time).toLocaleString()} · <a href="https://tronscan.org/#/transaction/${x.id}" target="_blank">tx</a>`).join('')}`;
+    }catch(err){o.textContent=t('err');}
   }
-  load();setInterval(load,20000);
+  load();timer=setInterval(load,20000);
 }
-(function(){const h=location.hash.slice(1);if(!h)return form();try{status(dec(h));}catch{form();}})();
+
+function render(){
+  clearInterval(timer);langBar();
+  if(!cur){const h=location.hash.slice(1);if(h){try{cur=dec(h);}catch{}}}
+  cur?status(cur):form();
+}
+render();
 </script>
 </body>
 </html>
